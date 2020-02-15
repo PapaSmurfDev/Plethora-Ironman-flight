@@ -215,8 +215,8 @@ local function flyMode()
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
         
-        if left or right or front or back then power = min(1, power+0.1) end
-        if up or down then power = min(1, power+0.3) end
+        if left or right or front or back then power = math.min(1, power+0.1) end
+        if up or down then power = math.min(1, power+0.3) end
         -- APPLY
         modules.launch(theta, pitch, power)
     end
