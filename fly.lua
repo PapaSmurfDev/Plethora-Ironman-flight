@@ -1,6 +1,7 @@
 local yieldTime = os.clock()
 local function yield()
-    if os.clock() - yieldTime > 2 then
+    local YIELD_SPAN = 0.5
+    if os.clock() - yieldTime > YIELD_SPAN then
         os.queueEvent("yield")
         os.pullEvent("yield")
         yieldTime = os.clock()
@@ -182,8 +183,6 @@ local function flyMode()
                 fly = false
                 print("Ground reached, fly disabled")
             end
-        else
-            sleep(1/20)
         end
     end
 end
@@ -200,8 +199,6 @@ local function hoverMode()
                 if mY < 0 then sign = -1 end
                 modules.launch(meta.yaw, 90 * sign, math.min(4, math.abs(mY)))
             end
-        else
-            sleep(1/20)
         end
     end
 end
@@ -211,9 +208,7 @@ local function fallCushion()
     while not stop do
         if DEBUG then print("fall cushion") end
         yield()
-        if not in_flight then
-            sleep(1/20)
-        elseif meta.motionY < -0.3 then
+        if in_flight and meta.motionY < -0.3 then
             for y = 0, -8, -1 do
                 local block = scannedAt(8,y,8)
                 if block.name ~= "minecraft:air" then
