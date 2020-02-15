@@ -1,2 +1,2 @@
 shell.setDir("..")
-shell.run("github helldragger/CC-Plethora-Scripts")
+shell.run("github clone helldragger/CC-Plethora-Scripts")
