@@ -52,6 +52,7 @@ end
 -- CONTROLS
 
 local fly = false
+local flyActivatedTime = -1
 local down = false
 local up = false
 local front = false
@@ -67,8 +68,6 @@ local hover = false
 local in_flight = false
 
 local function controls()
-    refreshMeta()
-    refreshScan()
     if DEBUG then print("controls") end
     local speed = (meta.motionX^2 + meta.motionY^2)^0.5
     local event, key, held = os.pullEvent()
@@ -77,10 +76,7 @@ local function controls()
         stop = true
         print("K pressed, stopping program...")
         
-    elseif event == "key" and key == keys.i and not held then
-        print("[INFO] pitch " .. meta.pitch .. " | yaw " .. meta.yaw .. " | velocity " .. meta.motionX .. "x " .. meta.motionY .. "y |")
     elseif event == "key" and key == keys.space and not held then    
-        spacePressed = true
         local spaceTime = os.clock()
         local diff = spaceTime - lastSpaceTime
         if (diff < 0.5) then
@@ -88,23 +84,14 @@ local function controls()
             spaceTime = -1
             if fly then 
                 print("FLY MODE ENABLED")
+                flyActivatedTime = os.clock()
             else 
                 print("FLY MODE DISABLED") 
             end                    
         end 
         lastSpaceTime = spaceTime
         -- the space key launches you in whatever direction you are looking at
-        --modules.launch(meta.yaw, meta.pitch, 0.6)
-    elseif event == "key" and key == keys.x and not held then
-        -- holding the X key enables "hover"mode, mwe disab when it is released.
-        if not hover then
-            hover = true
-            os.queueEvent("hover")
-        end
-    elseif event == "key_up" and key == keys.x then
-        hover = false
-    elseif event == "key_up" and key == keys.space then
-        spacePressed = false
+    
     end
 
     -- FLIGHT RELATED
@@ -197,7 +184,8 @@ local function flyMode()
     if DEBUG then print("fly") end
     if fly then
         -- si au sol => fly mode desactivé
-        if not in_flight and not up then
+        
+        if not in_flight and not up and (os.clock()-flyActivatedTime) > 0.5 then
             fly = false
             print("Ground reached, fly disabled")
             return
@@ -221,11 +209,12 @@ local function flyMode()
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
         
-        if left or right or front or back then power = math.min(1, power+0.1) end
-        if up or down then power = math.min(1, power+0.3) end
+        if left or right or front or back then power = power+0.1 end
+        if up or down then power = power+0.3 end
+        local MAXSPEED = 1
+        power = math.min(MAXSPEED - power, 0)
         
         -- APPLY
-        power = math.min(power, 0.4)
         modules.launch(theta, pitch, power)
     end
 end
@@ -270,12 +259,12 @@ end
 print("FLY program started, press K to stop")
 
 parallel.waitForAny(
-    --function() 
-    --    untilKill(refreshMeta)
-    --end,
-    --function() 
-    --    untilKill(refreshScan)
-    --end,
+    function() 
+        untilKill(refreshMeta)
+    end,
+    function() 
+        untilKill(refreshScan)
+    end,
     function() 
         untilKill(controls)
     end,
