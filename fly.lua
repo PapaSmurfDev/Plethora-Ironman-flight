@@ -203,23 +203,27 @@ local function flyMode()
             return
         end
         -- YAW (horizontal)
-        local theta = meta.yaw
+        local theta = 0
         if left then theta = addYaw(theta, -90) end
         if right then theta = addYaw(theta, 90) end
         if front then theta = addYaw(theta, 0) end
         if back then theta = addYaw(theta, 180) end
+        theta = addYaw(meta.yaw, theta)
+
         -- PITCH (vertical)
-        pitch = meta.pitch
+        pitch = 0
         if up then pitch = -90 end
         if down then pitch = 90 end
         if left or right or front or back then pitch = pitch *1/4 end
+        pitch =  meta.pitch + pitch
+
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
         
         if left or right or front or back then power = math.min(1, power+0.1) end
         if up or down then power = math.min(1, power+0.3) end
         -- APPLY
-        power = math.min(power, 0.5)
+        power = math.min(power, 0.4)
         modules.launch(theta, pitch, power)
     end
 end
