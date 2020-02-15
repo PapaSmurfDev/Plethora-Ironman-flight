@@ -1,2 +1,5 @@
-shell.setDir("..")
+local currentDir = fs.getDir(shell.getRunningProgram())
+local parentDir = fs.getDir(currentDir)
+shell.setDir(parentDir)
 shell.run("github clone helldragger/CC-Plethora-Scripts")
+shell.setDir(currentDir)
