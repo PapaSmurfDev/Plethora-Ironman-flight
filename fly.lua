@@ -281,7 +281,7 @@ parallel.waitForAny(
     end,
     function() 
         untilKill(flyMode)
-    end,
+    end--,
     --function() 
     --    untilKill(hoverMode)
     --end,
