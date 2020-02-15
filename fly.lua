@@ -20,7 +20,7 @@ if not modules.hasModule("plethora:introspection") then error("Must have an intr
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 
 -- DEBUG CONTROL
-local DEBUG = false
+local DEBUG = true
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -202,6 +202,7 @@ local function flyMode()
             print("Ground reached, fly disabled")
             return
         end
+
         -- YAW (horizontal)
         local theta = 0
         if left then theta = addYaw(theta, -90) end
@@ -222,6 +223,7 @@ local function flyMode()
         
         if left or right or front or back then power = math.min(1, power+0.1) end
         if up or down then power = math.min(1, power+0.3) end
+        
         -- APPLY
         power = math.min(power, 0.4)
         modules.launch(theta, pitch, power)
@@ -283,7 +285,7 @@ parallel.waitForAny(
     --function() 
     --    untilKill(hoverMode)
     --end,
-    function() 
-        untilKill(fallCushion)
-    end
+    --function() 
+    --    untilKill(fallCushion)
+    --end
 )
