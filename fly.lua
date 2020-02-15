@@ -210,8 +210,8 @@ local function flyMode()
         if back then theta = addYaw(theta, 180) end
         -- PITCH (vertical)
         pitch = meta.pitch
-        if up then pitch = 0.3 end
-        if down then pitch = 0.3 end
+        if up then pitch = -90 end
+        if down then pitch = 90 end
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
         
