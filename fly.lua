@@ -67,6 +67,8 @@ local hover = false
 local in_flight = false
 
 local function controls()
+    refreshMeta()
+    refreshScan()
     if DEBUG then print("controls") end
     local speed = (meta.motionX^2 + meta.motionY^2)^0.5
     local event, key, held = os.pullEvent()
@@ -216,21 +218,21 @@ end
 print("FLY program started, press K to stop")
 
 parallel.waitForAny(
-    function() 
-        untilKill(refreshMeta)
-    end,
-    function() 
-        untilKill(refreshScan)
-    end,
+    --function() 
+    --    untilKill(refreshMeta)
+    --end,
+    --function() 
+    --    untilKill(refreshScan)
+    --end,
     function() 
         untilKill(controls)
     end,
     function() 
         untilKill(flyMode)
     end,
-    function() 
-        untilKill(hoverMode)
-    end,
+    --function() 
+    --    untilKill(hoverMode)
+    --end,
     function() 
         untilKill(fallCushion)
     end
