@@ -1,11 +1,12 @@
 local yieldTime = os.clock()
 local function yield()
-    local YIELD_SPAN = 0.5
-    if os.clock() - yieldTime > YIELD_SPAN then
-        os.queueEvent("yield")
-        os.pullEvent("yield")
-        yieldTime = os.clock()
-    end
+    coroutine.yield()
+    --local YIELD_SPAN = 0.5
+    --if os.clock() - yieldTime > YIELD_SPAN then
+    --    os.queueEvent("yield")
+    --    os.pullEvent("yield")
+    --    yieldTime = os.clock()
+    --end
 end
 
 -- NEURAL INTERFACE REQUIRED
