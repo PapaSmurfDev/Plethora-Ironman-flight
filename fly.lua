@@ -204,23 +204,33 @@ local function fallCushion()
     end
 end
 
+local function untilKill(func)
+    while not stop do
+        yield()
+        func()
+    end
+end
+
 -- MAIN LOOP
 print("FLY program started, press K to stop")
 
-while not stop do
-    yield()
-    refreshMeta()
-    refreshScan()
-    controls()
-    flyMode()
-    hoverMode()
-    fallCushion()
-end
---parallel.waitForAny(
---    refreshMeta,
---    refreshScan,
---    controls,
---    flyMode,
---    hoverMode,
---    fallCushion
---)
+parallel.waitForAny(
+    function() 
+        untilKill(refreshMeta)
+    end,
+    function() 
+        untilKill(refreshScan)
+    end,
+    function() 
+        untilKill(controls)
+    end,
+    function() 
+        untilKill(flyMode)
+    end,
+    function() 
+        untilKill(hoverMode)
+    end,
+    function() 
+        untilKill(fallCushion)
+    end
+)
