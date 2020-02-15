@@ -164,8 +164,34 @@ end
 -- pitch = vertical
 -- yaw = horizontal
 -- both use -180 -> 180 degrees
+-- lauynche(yaw, pitch, power)
 -- i.e.: up = launch(0, -90, power)
--- i.e.: north = launch(0, 0, power)
+-- north: -180|180
+-- south: 0|360
+-- east : -90|280
+-- west : -280|90
+--
+--  0    --> 360
+--  -360 --> 0
+--
+-- 2.W   3.N
+--   \   /
+--     X
+--   /   \
+-- 1.S   4.E     
+-- Sens horaire so to the right = theta > 0
+-- to the left theta < 0
+--
+
+local function addYaw(theta, delta)
+    theta = theta + delta
+    if theta < -360 then
+        theta = theta + 360
+    elseif theta > 360 then
+        theta = theta - 360
+    end
+    return theta
+end
 
 local function flyMode()
     if DEBUG then print("fly") end
@@ -174,7 +200,25 @@ local function flyMode()
         if not in_flight and not up then
             fly = false
             print("Ground reached, fly disabled")
+            return
         end
+        -- YAW (horizontal)
+        local theta = meta.yaw
+        if left then theta = addYaw(theta, -90) end
+        if right then theta = addYaw(theta, 90) end
+        if front then theta = addYaw(theta, 0) end
+        if back then theta = addYaw(theta, 180) end
+        -- PITCH (vertical)
+        pitch = meta.pitch
+        if up then pitch = 0.3 end
+        if down then pitch = 0.3 end
+        -- POWER (speed)
+        power = (meta.motionY^2 + meta.motionX^2)^0.5
+        
+        if left or right or front or back then power = min(1, power+0.1) end
+        if up or down then power = min(1, power+0.3) end
+        -- APPLY
+        modules.launch(theta, pitch, power)
     end
 end
 
@@ -194,7 +238,7 @@ end
 
 local function fallCushion()
     if DEBUG then print("fall cushion") end
-    if in_flight and meta.motionY < -0.3 then
+    if in_flight and not down and not up and meta.motionY < -0.3 then
         for y = 0, -8, -1 do
             local block = scannedAt(8,y,8)
             if block.name ~= "minecraft:air" then
