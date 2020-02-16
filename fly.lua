@@ -9,6 +9,10 @@ local function yield()
     --end
 end
 
+local function printDebug(msg)
+    print(os.date().." | "..msg)
+end
+
 -- NEURAL INTERFACE REQUIRED
 local modules = peripheral.find("neuralInterface")
 if not modules then error("Must have a neural interface", 0) end
@@ -31,7 +35,7 @@ local meta = modules.getMetaOwner()
 
 local function refreshMeta()    
     os.pullEvent("refreshMeta")
-    if DEBUGCALLS then print("refresh meta") end
+    if DEBUGCALLS then printDebug("refresh meta") end
     meta = modules.getMetaOwner()
 end
 
@@ -39,7 +43,7 @@ end
 local scanned = modules.scan()
 local function refreshScan()    
     os.pullEvent("refreshScan")
-    if DEBUGCALLS then print("refresh scan") end
+    if DEBUGCALLS then printDebug("refresh scan") end
     scanned = modules.scan()
 end
 
@@ -81,7 +85,7 @@ local in_flight = false
 
 local function controls()
     local event, key, held = os.pullEvent("key")
-    if DEBUGCALLS then print("controls") end
+    if DEBUGCALLS then printDebug("controls") end
     down = (downLastPressedTime-os.clock())<KEY_UP_THRESHOLD
     up = (upLastPressedTime-os.clock())<KEY_UP_THRESHOLD
     front = (frontLastPressedTime-os.clock())<KEY_UP_THRESHOLD
@@ -91,9 +95,9 @@ local function controls()
 
     if DEBUGINPUT then 
         if held then
-            print( "[key   ] " .. key .. "(held)")
+            printDebug( "[key   ] " .. key .. "(held)")
         else
-            print( "[key   ] " .. key .. "(down)")
+            printDebug( "[key   ] " .. key .. "(down)")
         end
     end
 
@@ -191,7 +195,7 @@ end
 
 local function flyMode()
     os.pullEvent("fly")
-    if DEBUGCALLS then print("fly") end
+    if DEBUGCALLS then printDebug("fly") end
     if fly then
         -- si au sol => fly mode desactivé
         
@@ -231,7 +235,7 @@ end
 
 local function hoverMode()
     os.pullEvent("hover")
-    if DEBUGCALLS then print("hover") end
+    if DEBUGCALLS then printDebug("hover") end
     if hover then
         local mY = meta.motionY
         mY = (mY - 0.138) / 0.8
@@ -246,7 +250,7 @@ end
 
 local function fallCushion()    
     os.pullEvent("fallCushion")
-    if DEBUGCALLS then print("fall cushion") end
+    if DEBUGCALLS then printDebug("fall cushion") end
     if in_flight and not down and not up and meta.motionY < -0.3 then
         for y = 0, -8, -1 do
             local block = scannedAt(8,y,8)
