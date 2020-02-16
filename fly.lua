@@ -13,10 +13,10 @@ local DEBUG_LOG_FILE = "fly_debug.log"
 if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
 
 local function printDebug(msg)
-    msg = os.date().." | "..textutils.serialize(msg)
+    msg = "["..os.date().."] "..msg.."\n"
     print(msg)
     local log = fs.open(DEBUG_LOG_FILE, "a")
-    log.write(textutils.serialize(msg))
+    log.write(msg)
     log.close()
 end
 
