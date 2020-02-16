@@ -303,11 +303,12 @@ local function flyMode()
         end
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
-        
-        local MAXSPEED = 4 - (meta.motionY^2 + meta.motionX^2)^0.5
-        local power = math.min(MAXSPEED, delta)
-        if DEBUGINPUT then printDebug("fly: MAX POWER POSSIBLE LEFT = "..MAXSPEED) end
-        if DEBUGINPUT then printDebug("fly: POWER = min("..MAXSPEED..","..delta..") = "..power) end
+        local speed = (meta.motionY^2 + meta.motionX^2)^0.5
+        local MAXSPEED = 4
+        local power = math.min(MAXSPEED, speed+delta)
+        if DEBUGINPUT then printDebug("fly: current speed = "..speed) end
+        if DEBUGINPUT then printDebug("fly: max speed = "..MAXSPEED) end
+        if DEBUGINPUT then printDebug("fly: power = min("..MAXSPEED..","..speed+delta..") = "..power) end
         
         -- APPLY        
         if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
