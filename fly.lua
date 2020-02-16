@@ -71,7 +71,7 @@ local function controls()
     if DEBUG then print("controls") end
     local speed = (meta.motionX^2 + meta.motionY^2)^0.5
     local event, key, held = os.pullEvent()
-    -- print( "[" ... event ... "] " ... key ) 
+    print( "[" .. event .. "] " .. key .. "(held:"..held..")") 
     if event == "key" and key == keys.k then
         stop = true
         print("K pressed, stopping program...")
