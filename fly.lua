@@ -56,6 +56,15 @@ end
 
 local fly = false
 local flyActivatedTime = -1
+
+local upLastPressedTime=-1
+local downLastPressedTime=-1
+local frontLastPressedTime=-1
+local backLastPressedTime=-1
+local rightLastPressedTime=-1
+local leftLastPressedTime=-1
+local KEY_UP_THRESHOLD = 0.3 --sec
+
 local down = false
 local up = false
 local front = false
@@ -71,23 +80,27 @@ local hover = false
 local in_flight = false
 
 local function controls()
-    local event, key, held = os.pullEvent()
+    local event, key, held = os.pullEvent("key")
     if DEBUGCALLS then print("controls") end
+    down = (downLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    up = (upLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    front = (frontLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    back = (backLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    right = (rightLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    left = (leftLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+
     if DEBUGINPUT then 
-        if event == "key" then 
-            if held then
-                print( "[key   ] " .. key .. "(held)")
-            else
-                print( "[key   ] " .. key .. "(down)")
-            end
-        elseif event == "key_up" then 
-            print( "[key_up] " .. key) 
+        if held then
+            print( "[key   ] " .. key .. "(held)")
+        else
+            print( "[key   ] " .. key .. "(down)")
         end
     end
-    if event == "key" and key == keys.k then
+
+    if key == keys.k then
         stop = true
         print("K pressed, stopping program...")
-    elseif event == "key" and key == keys.space and not held then    
+    elseif key == keys.space and not held then    
         local spaceTime = os.clock()
         local diff = spaceTime - lastSpaceTime
         if (diff < 0.5) then
@@ -100,59 +113,39 @@ local function controls()
                 print("FLY MODE DISABLED") 
             end                    
         end 
-        lastSpaceTime = spaceTime
-        -- the space key launches you in whatever direction you are looking at
-    
+        lastSpaceTime = spaceTime    
     end
 
     -- FLIGHT RELATED
     -- shift => descente
     if key == keys.shift then
-        if event == "key" then 
-            down = true 
-        elseif event == "key_up" then
-            down = false
-        end
+        down = true
+        downLastPressedTime = os.clock()
     end
     -- space => montée 
     if key == keys.space then 
-        if event == "key" then
-            up = true 
-        elseif event == "key_up" then
-            up = false
-        end
+        up = true
+        upLastPressedTime = os.clock()
     end
     -- W => en avant
     if key == keys.w then
-        if event == "key" then
-            front = true
-        elseif event == "key_up" then
-            front = false
-        end
+        front = true
+        frontLastPressedTime = os.clock()
     end
     -- S => en arrière 
     if key == keys.s then
-        if event == "key" then
-            back = true
-        elseif event == "key_up" then
-            back = false
-        end
+        back = true
+        backLastPressedTime = os.clock()
     end
     -- A => à gauche
     if key == keys.a then
-        if event == "key" then
-            left = true
-        elseif event == "key_up" then
-            left = false
-        end
+        left = true
+        leftLastPressedTime = os.clock()
     end
     -- D => à droite
     if key == keys.d then
-        if event == "key" then
-            right = true
-        elseif event == "key_up" then
-            right = false
-        end
+        right = true
+        rightLastPressedTime = os.clock()
     end
     -- on check le block sous les pieds du joueur
     in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
