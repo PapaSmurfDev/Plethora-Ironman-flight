@@ -64,6 +64,11 @@ end
 
 
 -- CONTROLS
+local LIGHTSPEED = 4
+local FASTER = 2
+local FAST = 1
+local NORMAL = 0.8
+local SPEEDMODE = NORMAL
 
 local fly = false
 local flyActivatedTime = -1
@@ -128,6 +133,20 @@ local function controls()
     end
 
     -- FLIGHT RELATED
+    -- dot => speedup
+    if key == keys.dot  then
+        if SPEEDMODE == NORMAL then SPEEDMODE = FAST
+        elseif SPEEDMODE == FAST then SPEEDMODE = FASTER
+        elseif SPEEDMODE == FASTER then SPEEDMODE = LIGHTSPEED
+        end
+    end
+    -- comma => slowdown
+    if key == keys.comma then
+        if SPEEDMODE == LIGHTSPEED then SPEEDMODE = FASTER
+        elseif SPEEDMODE == FASTER then SPEEDMODE = FAST
+        elseif SPEEDMODE == FAST then SPEEDMODE = NORMAL
+        end
+    end
     -- shift => descente
     if key == keys.shift then
         down = true
@@ -159,7 +178,7 @@ local function controls()
         rightLastPressedTime = os.clock()
     end
     -- on check le block sous les pieds du joueur
-    in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
+    in_flight = scannedAt(8,-1,8).name ~= "minecraft:air"
     if DEBUGINPUT then
         local pressed = ""
         if up then pressed = pressed.."UP " end
@@ -304,7 +323,7 @@ local function flyMode()
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
         local speed = (meta.motionY^2 + meta.motionX^2)^0.5
-        local MAXSPEED = 1 -- max is 4
+        local MAXSPEED = SPEEDMODE -- max is 4
         local power = math.min(MAXSPEED, speed+delta)
         if DEBUGINPUT then printDebug("fly: current speed = "..speed) end
         if DEBUGINPUT then printDebug("fly: max speed = "..MAXSPEED) end
