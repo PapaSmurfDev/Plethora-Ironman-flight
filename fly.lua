@@ -227,21 +227,30 @@ local function flyMode()
         local delta = 0
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
 
-        if DEBUGINPUT then printDebug("fly: LEFT INFLUENCE") end
-        if left then delta = addYaw(delta, -90) end
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        
+        if left then 
+            if DEBUGINPUT then printDebug("fly: LEFT INFLUENCE") end
+            delta = addYaw(delta, -90) 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end
 
-        if DEBUGINPUT then printDebug("fly: RIGHT INFLUENCE") end
-        if right then delta = addYaw(delta, 90) end
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if right then 
+            if DEBUGINPUT then printDebug("fly: RIGHT INFLUENCE") end
+            delta = addYaw(delta, 90) 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end
 
-        if DEBUGINPUT then printDebug("fly: FRONT INFLUENCE") end
-        if front then delta = addYaw(delta, 0) end
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if front then 
+            if DEBUGINPUT then printDebug("fly: FRONT INFLUENCE") end
+            delta = addYaw(delta, 0) 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end
 
-        if DEBUGINPUT then printDebug("fly: BACK INFLUENCE") end
-        if back then delta = addYaw(delta, 180) end        
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if back then 
+            if DEBUGINPUT then printDebug("fly: BACK INFLUENCE") end
+            delta = addYaw(delta, 180)
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end        
 
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
         local yaw  = addYaw(meta.yaw, delta)        
@@ -253,17 +262,23 @@ local function flyMode()
         delta = 0        
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
-        if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
-        if up then delta = -90 end           
-        if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
+        if up then 
+            if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
+            delta = -90 
+            if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
+        end           
 
-        if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
-        if down then delta = 90 end           
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if down then 
+            if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
+            delta = 90 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end           
                 
-        if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
-        if left or right or front or back then delta = delta / 4 end   
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if left or right or front or back then 
+            if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
+            delta = delta / 4 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end   
                    
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
         local pitch =  meta.pitch + delta        
@@ -275,13 +290,17 @@ local function flyMode()
         delta = 0
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
-        if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
-        if left or right or front or back then delta = delta+0.1 end
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if left or right or front or back then 
+            if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
+            delta = delta+0.1 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end
 
-        if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
-        if up or down then delta = delta+0.3 end
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        if up or down then 
+            if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
+            delta = delta+0.3 
+            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        end
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
         
