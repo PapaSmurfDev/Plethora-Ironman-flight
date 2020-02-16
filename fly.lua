@@ -70,7 +70,6 @@ local in_flight = false
 
 local function controls()
     if DEBUGCALLS then print("controls") end
-    local speed = (meta.motionX^2 + meta.motionY^2)^0.5
     local event, key, held = os.pullEvent()
     if DEBUGINPUT then 
         if event == "key" then 
@@ -259,9 +258,9 @@ local function fallCushion()
     end
 end
 
-local function untilKill(func)
+local function untilKill(func, doesYield)
     while not stop do
-        yield()
+        if doesYield then yield() end
         func()
     end
 end
@@ -271,16 +270,16 @@ print("FLY program started, press K to stop")
 
 parallel.waitForAny(
     function() 
-        untilKill(refreshMeta)
+        untilKill(refreshMeta, true)
     end,
     function() 
-        untilKill(refreshScan)
+        untilKill(refreshScan, true)
     end,
     function() 
-        untilKill(controls)
+        untilKill(controls, false)
     end,
     function() 
-        untilKill(flyMode)
+        untilKill(flyMode, true)
     end--,
     --function() 
     --    untilKill(hoverMode)
