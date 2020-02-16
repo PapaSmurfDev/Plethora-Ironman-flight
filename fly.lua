@@ -157,7 +157,7 @@ local function controls()
     end
     -- on check le block sous les pieds du joueur
     in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
-    if fly then os.queueEvent("fly")
+    if fly then os.queueEvent("fly") end
     os.queueEvent("refreshMeta")
     os.queueEvent("refreshScan")
 end
