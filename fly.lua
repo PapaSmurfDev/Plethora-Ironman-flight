@@ -292,13 +292,13 @@ local function flyMode()
         
         if left or right or front or back then 
             if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
-            delta = delta+0.05 
+            delta = delta+0.15 
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
 
         if up or down then 
             if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
-            delta = delta+0.1
+            delta = delta+0.3
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
 
