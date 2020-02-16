@@ -333,7 +333,7 @@ local function flyMode()
 
         if up or down then 
             if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
-            delta = delta+0.3
+            delta = delta+0.4
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
 
