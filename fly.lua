@@ -229,7 +229,7 @@ local function flyMode()
         power = math.min(MAXSPEED - power, 0)
         
         -- APPLY
-        if DEBUGCALLS then printDebug("fly: launch("..theta..", "..pitch..", "..power..")")
+        if DEBUGCALLS then printDebug("fly: launch("..theta..", "..pitch..", "..power..")") end
         modules.launch(theta, pitch, power)
     end
 end
