@@ -355,7 +355,7 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
-        local speed = (meta.motionY^2 + (meta.motionX^2)/10)^0.5
+        local speed = (meta.motionY^2 + (meta.motionX^2)/10)^0.5 / FLYCALLSSINCELASTCONTROL
         local MAXSPEED = SPEEDMODE -- max is 4
         local power = math.min(MAXSPEED, speed+delta)
         if DEBUGINPUT then printDebug("fly: current speed = "..speed) end
