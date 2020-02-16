@@ -29,14 +29,16 @@ local stop = false
 -- PLAYER DATA CACHE
 local meta = modules.getMetaOwner()
 
-local function refreshMeta()
+local function refreshMeta()    
+    os.pullEvent("refreshMeta")
     if DEBUGCALLS then print("refresh meta") end
     meta = modules.getMetaOwner()
 end
 
 -- LOCATION / HEIGHT ABOVE GROUND CACHE
 local scanned = modules.scan()
-local function refreshScan()
+local function refreshScan()    
+    os.pullEvent("refreshScan")
     if DEBUGCALLS then print("refresh scan") end
     scanned = modules.scan()
 end
@@ -155,6 +157,9 @@ local function controls()
     end
     -- on check le block sous les pieds du joueur
     in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
+    if fly then os.queueEvent("fly")
+    os.queueEvent("refreshMeta")
+    os.queueEvent("refreshScan")
 end
 
 
@@ -192,6 +197,7 @@ end
 
 local function flyMode()
     if DEBUGCALLS then print("fly") end
+    os.pullEvent("fly")
     if fly then
         -- si au sol => fly mode desactivé
         
@@ -270,16 +276,16 @@ print("FLY program started, press K to stop")
 
 parallel.waitForAny(
     function() 
-        untilKill(refreshMeta, true)
+        untilKill(refreshMeta, false)
     end,
     function() 
-        untilKill(refreshScan, true)
+        untilKill(refreshScan, false)
     end,
     function() 
         untilKill(controls, false)
     end,
     function() 
-        untilKill(flyMode, true)
+        untilKill(flyMode, false)
     end--,
     --function() 
     --    untilKill(hoverMode)
