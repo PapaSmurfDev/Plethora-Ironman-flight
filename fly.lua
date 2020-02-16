@@ -31,8 +31,8 @@ if not modules.hasModule("plethora:introspection") then error("Must have an intr
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 
 -- DEBUG CONTROL
-local DEBUGCALLS = true
-local DEBUGINPUT = true
+local DEBUGCALLS = false
+local DEBUGINPUT = false
 
 -- KILL SWITCH CONTROL
 local stop = false
