@@ -20,8 +20,8 @@ if not modules.hasModule("plethora:introspection") then error("Must have an intr
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 
 -- DEBUG CONTROL
-local DEBUGCALLS = false
-local DEBUGINPUT = true
+local DEBUGCALLS = true
+local DEBUGINPUT = false
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -71,8 +71,8 @@ local hover = false
 local in_flight = false
 
 local function controls()
-    if DEBUGCALLS then print("controls") end
     local event, key, held = os.pullEvent()
+    if DEBUGCALLS then print("controls") end
     if DEBUGINPUT then 
         if event == "key" then 
             if held then
@@ -87,7 +87,6 @@ local function controls()
     if event == "key" and key == keys.k then
         stop = true
         print("K pressed, stopping program...")
-        
     elseif event == "key" and key == keys.space and not held then    
         local spaceTime = os.clock()
         local diff = spaceTime - lastSpaceTime
@@ -157,7 +156,9 @@ local function controls()
     end
     -- on check le block sous les pieds du joueur
     in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
+    -- on lance une iteration de fly
     if fly then os.queueEvent("fly") end
+    -- on refresh nos données
     os.queueEvent("refreshMeta")
     os.queueEvent("refreshScan")
 end
@@ -196,8 +197,8 @@ local function addYaw(theta, delta)
 end
 
 local function flyMode()
-    if DEBUGCALLS then print("fly") end
     os.pullEvent("fly")
+    if DEBUGCALLS then print("fly") end
     if fly then
         -- si au sol => fly mode desactivé
         
@@ -236,6 +237,7 @@ local function flyMode()
 end
 
 local function hoverMode()
+    os.pullEvent("hover")
     if DEBUGCALLS then print("hover") end
     if hover then
         local mY = meta.motionY
@@ -249,7 +251,8 @@ local function hoverMode()
 end
 
 
-local function fallCushion()
+local function fallCushion()    
+    os.pullEvent("fallCushion")
     if DEBUGCALLS then print("fall cushion") end
     if in_flight and not down and not up and meta.motionY < -0.3 then
         for y = 0, -8, -1 do
