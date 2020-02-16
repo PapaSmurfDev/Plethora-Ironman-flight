@@ -225,10 +225,11 @@ local function flyMode()
         
         if left or right or front or back then power = power+0.1 end
         if up or down then power = power+0.3 end
-        local MAXSPEED = 1
+        local MAXSPEED = 5
         power = math.min(MAXSPEED - power, 0)
         
         -- APPLY
+        if DEBUGCALLS then printDebug("fly: launch("..theta..", "..pitch..", "..power..")")
         modules.launch(theta, pitch, power)
     end
 end
