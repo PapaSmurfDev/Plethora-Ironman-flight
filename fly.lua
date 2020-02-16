@@ -135,16 +135,32 @@ local function controls()
     -- FLIGHT RELATED
     -- dot => speedup
     if key == keys.dot  then
-        if SPEEDMODE == NORMAL then SPEEDMODE = FAST
-        elseif SPEEDMODE == FAST then SPEEDMODE = FASTER
-        elseif SPEEDMODE == FASTER then SPEEDMODE = LIGHTSPEED
+        if SPEEDMODE == NORMAL then 
+            SPEEDMODE = FAST
+            print("Speed mode set to FAST")
+        elseif SPEEDMODE == FAST then 
+            SPEEDMODE = FASTER
+            print("Speed mode set to FASTER")
+        elseif SPEEDMODE == FASTER then 
+            SPEEDMODE = LIGHTSPEED
+            print("Speed mode set to LIGHTSPEED")
+        else
+            print("Speed mode is already maximal")
         end
     end
     -- comma => slowdown
     if key == keys.comma then
-        if SPEEDMODE == LIGHTSPEED then SPEEDMODE = FASTER
-        elseif SPEEDMODE == FASTER then SPEEDMODE = FAST
-        elseif SPEEDMODE == FAST then SPEEDMODE = NORMAL
+        if SPEEDMODE == LIGHTSPEED then 
+            SPEEDMODE = FASTER
+            print("Speed mode set to FASTER")
+        elseif SPEEDMODE == FASTER then 
+            SPEEDMODE = FAST
+            print("Speed mode set to FAST")
+        elseif SPEEDMODE == FAST then 
+            SPEEDMODE = NORMAL
+            print("Speed mode set to NORMAL")
+        else
+            print("Speed mode is already minimal")
         end
     end
     -- shift => descente
