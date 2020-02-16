@@ -160,6 +160,16 @@ local function controls()
     end
     -- on check le block sous les pieds du joueur
     in_flight = scannedAt(8,0,8).name ~= "minecraft:air"
+    if DEBUGINPUT then
+        local pressed = ""
+        if up then pressed = pressed.."UP " end
+        if down then pressed = pressed.."DOWN " end
+        if front then pressed = pressed.."FRONT " end
+        if back then pressed = pressed.."BACK " end
+        if right then pressed = pressed.."RIGHT " end
+        if left then pressed = pressed.."LEFT " end
+        printDebug(pressed)
+    end
     -- on lance une iteration de fly
     if fly then os.queueEvent("fly") end
     -- on refresh nos données
