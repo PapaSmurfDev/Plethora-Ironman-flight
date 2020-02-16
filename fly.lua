@@ -123,8 +123,10 @@ local function controls()
             fly = not fly
             spaceTime = -1
             if fly then 
-                print("FLY MODE ENABLED")
+                print("FLY MODE ENABLED")                
+                -- on lance une iteration de fly
                 flyActivatedTime = os.clock()
+                os.queueEvent("fly")
             else 
                 print("FLY MODE DISABLED") 
             end                    
@@ -205,8 +207,6 @@ local function controls()
         if left then pressed = pressed.."LEFT " end
         printDebug(pressed)
     end
-    -- on lance une iteration de fly
-    if fly then os.queueEvent("fly") end
     -- on refresh nos données
     os.queueEvent("refreshMeta")
     os.queueEvent("refreshScan")
@@ -349,6 +349,7 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
         if DEBUGINPUT then printDebug("fly: launch("..yaw..", "..pitch..", "..power..")") end
         modules.launch(yaw, pitch, power)
+        os.queueEvent("fly")
     end
 end
 
