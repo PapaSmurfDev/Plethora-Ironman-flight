@@ -264,13 +264,13 @@ local function flyMode()
         
         if up then 
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
-            delta = -90 
+            delta = delta + -90 
             if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
         end           
 
         if down then 
             if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
-            delta = 90 
+            delta = delta + 90 
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end           
                 
