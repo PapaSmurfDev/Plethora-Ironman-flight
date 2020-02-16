@@ -9,8 +9,15 @@ local function yield()
     --end
 end
 
+local DEBUG_LOG_FILE = "fly_debug.log"
+if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
+
 local function printDebug(msg)
-    print(os.date().." | "..msg)
+    msg = os.date().." | "..textutils.serialize(msg)
+    print(msg)
+    local file = fs.open(DEBUG_LOG_FILE)
+    file.write(textutils.serialize(msg))
+    flie.close()
 end
 
 -- NEURAL INTERFACE REQUIRED
