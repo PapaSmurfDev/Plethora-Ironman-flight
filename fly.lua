@@ -133,8 +133,8 @@ local function controls()
     end
 
     -- FLIGHT RELATED
-    -- dot => speedup
-    if key == keys.dot  then
+    -- period (.) => speedup
+    if key == keys.period  then
         if SPEEDMODE == NORMAL then 
             SPEEDMODE = FAST
             print("Speed mode set to FAST")
@@ -148,7 +148,7 @@ local function controls()
             print("Speed mode is already maximal")
         end
     end
-    -- comma => slowdown
+    -- comma (,) => slowdown
     if key == keys.comma then
         if SPEEDMODE == LIGHTSPEED then 
             SPEEDMODE = FASTER
