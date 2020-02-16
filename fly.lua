@@ -9,7 +9,7 @@ local function yield()
     --end
 end
 
-local DEBUG_LOG_FILE = "fly_debug.log"
+local DEBUG_LOG_FILE = "./fly_debug.log"
 if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
 
 local function printDebug(msg)
@@ -223,40 +223,77 @@ local function flyMode()
         end
 
         -- YAW (horizontal)
-        local theta = 0
-        if left then theta = addYaw(theta, -90) end
-        if right then theta = addYaw(theta, 90) end
-        if front then theta = addYaw(theta, 0) end
-        if back then theta = addYaw(theta, 180) end        
-        if DEBUGINPUT then printDebug("fly: current theta = "..meta.yaw) end
+        if DEBUGINPUT then printDebug("fly: YAW CALCULATION") end
+        local delta = 0
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
 
-        theta = addYaw(meta.yaw, theta)        
-        if DEBUGINPUT then printDebug("fly: theta after taking horizontal move = "..theta) end
+        if DEBUGINPUT then printDebug("fly: LEFT INFLUENCE") end
+        if left then delta = addYaw(delta, -90) end
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: RIGHT INFLUENCE") end
+        if right then delta = addYaw(delta, 90) end
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: FRONT INFLUENCE") end
+        if front then delta = addYaw(delta, 0) end
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: BACK INFLUENCE") end
+        if back then delta = addYaw(delta, 180) end        
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
+        local yaw  = addYaw(meta.yaw, delta)        
+        if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..delta.." = "..yaw) end
 
 
         -- PITCH (vertical)
-        pitch = 0
-        if up then pitch = -90 end
-        if down then pitch = 90 end
-        if left or right or front or back then pitch = pitch / 4 end
-        if DEBUGINPUT then printDebug("fly: current pitch = "..meta.pitch) end
-        pitch =  meta.pitch + pitch
-        if DEBUGINPUT then printDebug("fly: pitch after taking vertical move = "..pitch) end
+        if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
+        delta = 0        
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        
+        if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
+        if up then delta = -90 end           
+        if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
+        if down then delta = 90 end           
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+                
+        if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
+        if left or right or front or back then delta = delta / 4 end   
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+                   
+        if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
+        local pitch =  meta.pitch + delta        
+        if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..delta.." = "..pitch) end
+
 
         -- POWER (speed)
-        power = (meta.motionY^2 + meta.motionX^2)^0.5
-        if DEBUGINPUT then printDebug("fly: current power = "..power) end
-
-        if left or right or front or back then power = power+0.1 end
-        if DEBUGINPUT then printDebug("fly: power after horizontal move = "..power) end
-        if up or down then power = power+0.3 end
-        if DEBUGINPUT then printDebug("fly: power after vertical move = "..power) end
-        local MAXSPEED = 4
-        power = math.max(MAXSPEED - power, 0)
+        if DEBUGINPUT then printDebug("fly: POWER CALCULATION") end
+        delta = 0
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
-        -- APPLY
-        if DEBUGINPUT then printDebug("fly: launch("..theta..", "..pitch..", "..power..")") end
-        modules.launch(theta, pitch, power)
+        if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
+        if left or right or front or back then delta = delta+0.1 end
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
+        if up or down then delta = delta+0.3 end
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
+        if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
+        
+        local MAXSPEED = 4 - (meta.motionY^2 + meta.motionX^2)^0.5
+        local power = math.min(MAXSPEED, delta)
+        if DEBUGINPUT then printDebug("fly: MAX POWER POSSIBLE LEFT = "..MAXSPEED) end
+        if DEBUGINPUT then printDebug("fly: POWER = min("..MAXSPEED..","..delta..") = "..power) end
+        
+        -- APPLY        
+        if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
+        if DEBUGINPUT then printDebug("fly: launch("..yaw..", "..pitch..", "..power..")") end
+        modules.launch(yaw, pitch, power)
     end
 end
 
