@@ -14,7 +14,7 @@ if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
 
 local function printDebug(msg)
     msg = "["..os.date().."] "..msg.."\n"
-    print(msg)
+    --print(msg)
     local log = fs.open(DEBUG_LOG_FILE, "a")
     log.write(msg)
     log.close()
