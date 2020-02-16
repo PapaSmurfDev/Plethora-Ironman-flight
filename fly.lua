@@ -251,11 +251,11 @@ local function flyMode()
     if fly then
         -- si au sol => fly mode desactivé
         
-        if not in_flight and not up and (os.clock()-flyActivatedTime) > 0.5 then
-            fly = false
-            print("Ground reached, fly disabled")
-            return
-        end
+        --if not in_flight and not up and (os.clock()-flyActivatedTime) > 0.5 then
+        --    fly = false
+        --    print("Ground reached, fly disabled")
+        --    return
+        --end
 
         -- YAW (horizontal)
         if DEBUGINPUT then printDebug("fly: YAW CALCULATION") end
