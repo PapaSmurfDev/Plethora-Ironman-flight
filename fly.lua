@@ -74,7 +74,11 @@ local function controls()
     local event, key, held = os.pullEvent()
     if DEBUGINPUT then 
         if event == "key" then 
-            print( "[key   ] " .. key .. "(held:"..held..")")
+            if held then
+                print( "[key   ] " .. key .. "(held)")
+            else
+                print( "[key   ] " .. key .. "(down)")
+            end
         elseif event == "key_up" then 
             print( "[key_up] " .. key) 
         end
