@@ -15,9 +15,9 @@ if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
 local function printDebug(msg)
     msg = os.date().." | "..textutils.serialize(msg)
     print(msg)
-    local file = fs.open(DEBUG_LOG_FILE, "a")
-    file.write(textutils.serialize(msg))
-    flie.close()
+    local log = fs.open(DEBUG_LOG_FILE, "a")
+    log.write(textutils.serialize(msg))
+    log.close()
 end
 
 -- NEURAL INTERFACE REQUIRED
