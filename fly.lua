@@ -20,7 +20,8 @@ if not modules.hasModule("plethora:introspection") then error("Must have an intr
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 
 -- DEBUG CONTROL
-local DEBUG = true
+local DEBUGCALLS = false
+local DEBUGINPUT = true
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -29,14 +30,14 @@ local stop = false
 local meta = modules.getMetaOwner()
 
 local function refreshMeta()
-    if DEBUG then print("refresh meta") end
+    if DEBUGCALLS then print("refresh meta") end
     meta = modules.getMetaOwner()
 end
 
 -- LOCATION / HEIGHT ABOVE GROUND CACHE
 local scanned = modules.scan()
 local function refreshScan()
-    if DEBUG then print("refresh scan") end
+    if DEBUGCALLS then print("refresh scan") end
     scanned = modules.scan()
 end
 
@@ -68,10 +69,10 @@ local hover = false
 local in_flight = false
 
 local function controls()
-    if DEBUG then print("controls") end
+    if DEBUGCALLS then print("controls") end
     local speed = (meta.motionX^2 + meta.motionY^2)^0.5
     local event, key, held = os.pullEvent()
-    print( "[" .. event .. "] " .. key .. "(held:"..held..")") 
+    if DEBUGINPUT then print( "[" .. event .. "] " .. key .. "(held:"..held..")") end
     if event == "key" and key == keys.k then
         stop = true
         print("K pressed, stopping program...")
@@ -181,7 +182,7 @@ local function addYaw(theta, delta)
 end
 
 local function flyMode()
-    if DEBUG then print("fly") end
+    if DEBUGCALLS then print("fly") end
     if fly then
         -- si au sol => fly mode desactivé
         
@@ -220,7 +221,7 @@ local function flyMode()
 end
 
 local function hoverMode()
-    if DEBUG then print("hover") end
+    if DEBUGCALLS then print("hover") end
     if hover then
         local mY = meta.motionY
         mY = (mY - 0.138) / 0.8
@@ -234,7 +235,7 @@ end
 
 
 local function fallCushion()
-    if DEBUG then print("fall cushion") end
+    if DEBUGCALLS then print("fall cushion") end
     if in_flight and not down and not up and meta.motionY < -0.3 then
         for y = 0, -8, -1 do
             local block = scannedAt(8,y,8)
