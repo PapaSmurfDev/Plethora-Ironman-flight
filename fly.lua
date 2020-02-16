@@ -210,23 +210,32 @@ local function flyMode()
         if left then theta = addYaw(theta, -90) end
         if right then theta = addYaw(theta, 90) end
         if front then theta = addYaw(theta, 0) end
-        if back then theta = addYaw(theta, 180) end
-        theta = addYaw(meta.yaw, theta)
+        if back then theta = addYaw(theta, 180) end        
+        if DEBUGCALLS then printDebug("fly: current theta = "..meta.yaw) end
+
+        theta = addYaw(meta.yaw, theta)        
+        if DEBUGCALLS then printDebug("fly: theta after taking horizontal move = "..theta) end
+
 
         -- PITCH (vertical)
         pitch = 0
         if up then pitch = -90 end
         if down then pitch = 90 end
-        if left or right or front or back then pitch = pitch *1/4 end
+        if left or right or front or back then pitch = pitch / 4 end
+        if DEBUGCALLS then printDebug("fly: current pitch = "..meta.pitch) end
         pitch =  meta.pitch + pitch
+        if DEBUGCALLS then printDebug("fly: pitch after taking vertical move = "..pitch) end
 
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
-        
+        if DEBUGCALLS then printDebug("fly: current power = "..power) end
+
         if left or right or front or back then power = power+0.1 end
+        if DEBUGCALLS then printDebug("fly: power after horizontal move = "..power) end
         if up or down then power = power+0.3 end
+        if DEBUGCALLS then printDebug("fly: power after vertical move = "..power) end
         local MAXSPEED = 5
-        power = math.min(MAXSPEED - power, 0)
+        power = math.max(MAXSPEED - power, 0)
         
         -- APPLY
         if DEBUGCALLS then printDebug("fly: launch("..theta..", "..pitch..", "..power..")") end
