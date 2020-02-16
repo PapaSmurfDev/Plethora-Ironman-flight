@@ -95,8 +95,11 @@ local hover = false
 
 local in_flight = false
 
+local FLYCALLSSINCELASTCONTROL = 1
+
 local function controls()
     local event, key, held = os.pullEvent("key")
+    FLYCALLSSINCELASTCONTROL = 0
     if DEBUGCALLS then printDebug("controls") end
     down = (os.clock()-downLastPressedTime)<KEY_UP_THRESHOLD
     up = (os.clock()-upLastPressedTime)<KEY_UP_THRESHOLD
@@ -123,8 +126,7 @@ local function controls()
             fly = not fly
             spaceTime = -1
             if fly then 
-                print("FLY MODE ENABLED")                
-                -- on lance une iteration de fly
+                print("FLY MODE ENABLED")
                 flyActivatedTime = os.clock()
                 os.queueEvent("fly")
             else 
@@ -247,9 +249,11 @@ end
 
 local function flyMode()
     os.pullEvent("fly")
+    
     if DEBUGCALLS then printDebug("fly") end
     if fly then
-        -- si au sol => fly mode desactivé
+        FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1
+            -- si au sol => fly mode desactivé
         
         --if not in_flight and not up and (os.clock()-flyActivatedTime) > 0.5 then
         --    fly = false
@@ -287,6 +291,10 @@ local function flyMode()
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end        
 
+        if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
+        delta = delta / FLYCALLSSINCELASTCONTROL
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
         local yaw  = addYaw(meta.yaw, delta)        
         if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..delta.." = "..yaw) end
@@ -314,7 +322,12 @@ local function flyMode()
             delta = delta / 4 
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end   
-                   
+        
+        
+        if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
+        delta = delta / FLYCALLSSINCELASTCONTROL
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
         local pitch =  meta.pitch + delta        
         if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..delta.." = "..pitch) end
@@ -336,6 +349,10 @@ local function flyMode()
             delta = delta+0.4
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
+        
+        if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
+        delta = delta / FLYCALLSSINCELASTCONTROL
+        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
         local speed = (meta.motionY^2 + (meta.motionX^2)/10)^0.5
