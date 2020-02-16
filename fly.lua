@@ -32,7 +32,7 @@ if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic 
 
 -- DEBUG CONTROL
 local DEBUGCALLS = true
-local DEBUGINPUT = false
+local DEBUGINPUT = true
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -228,10 +228,10 @@ local function flyMode()
         if right then theta = addYaw(theta, 90) end
         if front then theta = addYaw(theta, 0) end
         if back then theta = addYaw(theta, 180) end        
-        if DEBUGCALLS then printDebug("fly: current theta = "..meta.yaw) end
+        if DEBUGINPUT then printDebug("fly: current theta = "..meta.yaw) end
 
         theta = addYaw(meta.yaw, theta)        
-        if DEBUGCALLS then printDebug("fly: theta after taking horizontal move = "..theta) end
+        if DEBUGINPUT then printDebug("fly: theta after taking horizontal move = "..theta) end
 
 
         -- PITCH (vertical)
@@ -239,23 +239,23 @@ local function flyMode()
         if up then pitch = -90 end
         if down then pitch = 90 end
         if left or right or front or back then pitch = pitch / 4 end
-        if DEBUGCALLS then printDebug("fly: current pitch = "..meta.pitch) end
+        if DEBUGINPUT then printDebug("fly: current pitch = "..meta.pitch) end
         pitch =  meta.pitch + pitch
-        if DEBUGCALLS then printDebug("fly: pitch after taking vertical move = "..pitch) end
+        if DEBUGINPUT then printDebug("fly: pitch after taking vertical move = "..pitch) end
 
         -- POWER (speed)
         power = (meta.motionY^2 + meta.motionX^2)^0.5
-        if DEBUGCALLS then printDebug("fly: current power = "..power) end
+        if DEBUGINPUT then printDebug("fly: current power = "..power) end
 
         if left or right or front or back then power = power+0.1 end
-        if DEBUGCALLS then printDebug("fly: power after horizontal move = "..power) end
+        if DEBUGINPUT then printDebug("fly: power after horizontal move = "..power) end
         if up or down then power = power+0.3 end
-        if DEBUGCALLS then printDebug("fly: power after vertical move = "..power) end
+        if DEBUGINPUT then printDebug("fly: power after vertical move = "..power) end
         local MAXSPEED = 4
         power = math.max(MAXSPEED - power, 0)
         
         -- APPLY
-        if DEBUGCALLS then printDebug("fly: launch("..theta..", "..pitch..", "..power..")") end
+        if DEBUGINPUT then printDebug("fly: launch("..theta..", "..pitch..", "..power..")") end
         modules.launch(theta, pitch, power)
     end
 end
