@@ -234,7 +234,7 @@ local function flyMode()
         if DEBUGCALLS then printDebug("fly: power after horizontal move = "..power) end
         if up or down then power = power+0.3 end
         if DEBUGCALLS then printDebug("fly: power after vertical move = "..power) end
-        local MAXSPEED = 5
+        local MAXSPEED = 4
         power = math.max(MAXSPEED - power, 0)
         
         -- APPLY
