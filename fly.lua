@@ -93,12 +93,12 @@ local in_flight = false
 local function controls()
     local event, key, held = os.pullEvent("key")
     if DEBUGCALLS then printDebug("controls") end
-    down = (downLastPressedTime-os.clock())<KEY_UP_THRESHOLD
-    up = (upLastPressedTime-os.clock())<KEY_UP_THRESHOLD
-    front = (frontLastPressedTime-os.clock())<KEY_UP_THRESHOLD
-    back = (backLastPressedTime-os.clock())<KEY_UP_THRESHOLD
-    right = (rightLastPressedTime-os.clock())<KEY_UP_THRESHOLD
-    left = (leftLastPressedTime-os.clock())<KEY_UP_THRESHOLD
+    down = (os.clock()-downLastPressedTime)<KEY_UP_THRESHOLD
+    up = (os.clock()-upLastPressedTime)<KEY_UP_THRESHOLD
+    front = (os.clock()-frontLastPressedTime)<KEY_UP_THRESHOLD
+    back = (os.clock()-backLastPressedTime)<KEY_UP_THRESHOLD
+    right = (os.clock()-rightLastPressedTime)<KEY_UP_THRESHOLD
+    left = (os.clock()-leftLastPressedTime)<KEY_UP_THRESHOLD
 
     if DEBUGINPUT then 
         if held then
