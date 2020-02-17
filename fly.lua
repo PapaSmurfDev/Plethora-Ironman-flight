@@ -300,7 +300,7 @@ local function flyMode()
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        local dY = 90 -- 1.3 block/s gravity calculated, we aim to stabilize the player
+        local dY = -90 -- 1.3 block/s gravity calculated, we aim to stabilize the player
         
         if up then 
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
