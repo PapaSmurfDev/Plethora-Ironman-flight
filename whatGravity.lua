@@ -50,25 +50,13 @@ local function untilKill(func, doesYield)
 end
 
 -- MAIN LOOP
-print("FLY program started, press K to stop")
+print("whatgravity program started, press K to stop")
 
 parallel.waitForAny(
-    function() 
-        untilKill(refreshMeta, false)
-    end,
-    function() 
-        untilKill(refreshScan, false)
-    end,
     function() 
         untilKill(controls, false)
     end,
     function() 
         untilKill(calcGravity, false)
-    end--,
-    --function() 
-    --    untilKill(hoverMode)
-    --end,
-    --function() 
-    --    untilKill(fallCushion)
-    --end
+    end
 )
