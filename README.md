@@ -35,3 +35,14 @@ While being in the repository directory, use the pull script to update it
 ```sh
 pull
 ```
+
+## The various scripts
+
+### pull -- updater
+
+This script is an updater, it auto clones the repo onto itself using the github script aforementioned.
+
+### fly -- self-explanatory (WIP)
+
+This script is an attempt to emulate creative flight, but using the Neural Interface ```.launch(yaw, pitch, power)``` function as propulsion system!
+You can see an example of me trying to balance the thrusting power [here!](https://www.youtube.com/watch?v=yfzn9IO32pM&lc=z231tliztsbbcnoys04t1aokg4vtpt0nkz3c4uxpojgbbk0h00410)
