@@ -299,7 +299,7 @@ local function flyMode()
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        local dY = 1.3 -- gravity calculated, we aim to stabilize the player
+        local dY = 1.3 -- 1.3 block/s gravity calculated, we aim to stabilize the player
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
         if up then 
@@ -330,13 +330,13 @@ local function flyMode()
         
         if left or right or front or back then 
             if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
-            delta = delta+0.1
+            delta = delta+0.01
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
 
         if up or down then 
             if DEBUGINPUT then printDebug("fly: VERTICAL INFLUENCE") end
-            delta = delta+0.4
+            delta = delta+0.04
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         end
         
