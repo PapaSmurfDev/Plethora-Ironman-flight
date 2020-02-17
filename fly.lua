@@ -32,7 +32,7 @@ if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic 
 
 -- DEBUG CONTROL
 local DEBUGCALLS = false
-local DEBUGINPUT = true
+local DEBUGINPUT = false
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -300,7 +300,7 @@ local function flyMode()
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        local dY = 1.3 -- 1.3 block/s gravity calculated, we aim to stabilize the player
+        local dY = 90 -- 1.3 block/s gravity calculated, we aim to stabilize the player
         
         if up then 
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
@@ -355,7 +355,7 @@ local function flyMode()
         -- APPLY        
         if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
         if DEBUGINPUT then printDebug("fly: launch("..yaw..", "..pitch..", "..power..")") end
-        modules.launch(yaw, pitch, power)
+        modules.launch(yaw, 90, power)
         os.queueEvent("fly")
     end
 end
