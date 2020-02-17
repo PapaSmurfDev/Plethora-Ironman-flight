@@ -263,55 +263,55 @@ local function flyMode()
 
         -- YAW (horizontal)
         if DEBUGINPUT then printDebug("fly: YAW CALCULATION") end
-        local delta = 0
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        local dX = 0
+        local dZ = 0
 
         
         if left then 
             if DEBUGINPUT then printDebug("fly: LEFT INFLUENCE") end
-            delta = addYaw(delta, -90) 
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+            dX = dX - 1
         end
 
         if right then 
             if DEBUGINPUT then printDebug("fly: RIGHT INFLUENCE") end
-            delta = addYaw(delta, 90) 
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+            dX = dX + 1
         end
 
         if front then 
             if DEBUGINPUT then printDebug("fly: FRONT INFLUENCE") end
-            delta = addYaw(delta, 0) 
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
-        end
+            dZ = dZ + 1
+        end 
 
         if back then 
             if DEBUGINPUT then printDebug("fly: BACK INFLUENCE") end
-            delta = addYaw(delta, 180)
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
-        end        
+            dZ = dZ - 1
+        end 
+
+        local dYaw = math.atan2(dX, dZ)
 
         if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
-        delta = delta / FLYCALLSSINCELASTCONTROL
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        dYaw = dYaw / FLYCALLSSINCELASTCONTROL
+        if DEBUGINPUT then printDebug("fly: dYaw = "..dYaw) end
         
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
-        local yaw  = addYaw(meta.yaw, delta)        
-        if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..delta.." = "..yaw) end
+        local yaw  = addYaw(meta.yaw, dYaw)        
+        if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..dYaw.." = "..yaw) end
 
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        delta = 0        
+        local delta = 0
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
         if up then 
+            dY = dY + 1
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
             delta = delta + -90 
             if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
         end           
 
         if down then 
+            dY = dY + 1
             if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
             delta = delta + 90 
             if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
