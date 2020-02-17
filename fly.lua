@@ -62,12 +62,11 @@ local function scannedAt(x,y,z)
     return scanned[scanner_width ^ 2 * (x + scanner_radius) + scanner_width * (y + scanner_radius) + (z + scanner_radius) + 1]
 end
 
-
 -- CONTROLS
 local LIGHTSPEED = 4
 local FASTER = 2
 local FAST = 1
-local NORMAL = 0.8
+local NORMAL = 0.5
 local SPEEDMODE = NORMAL
 
 local fly = false
@@ -294,8 +293,9 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: dYaw = "..dYaw) end
         
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
-        local yaw  = addYaw(meta.yaw, dYaw)        
-        if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..dYaw.." = "..yaw) end
+        local actualyaw = math.atan2(meta.motionX, meta.motionZ)
+        local yaw  = addYaw(actualyaw, dYaw)        
+        if DEBUGINPUT then printDebug("fly: yaw = "..actualyaw.." + "..dYaw.." = "..yaw) end
 
 
         -- PITCH (vertical)
