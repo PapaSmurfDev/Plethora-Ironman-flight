@@ -355,7 +355,7 @@ local function flyMode()
         -- APPLY        
         if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
         if DEBUGINPUT then printDebug("fly: launch("..yaw..", "..pitch..", "..power..")") end
-        modules.launch(yaw, 90, power)
+        modules.launch(yaw, -90, power)
         os.queueEvent("fly")
     end
 end
