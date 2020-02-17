@@ -66,7 +66,7 @@ end
 local LIGHTSPEED = 4
 local FASTER = 2
 local FAST = 1
-local NORMAL = 0.3
+local NORMAL = 0.5
 local SPEEDMODE = NORMAL
 
 local fly = false
