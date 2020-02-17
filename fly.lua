@@ -262,40 +262,47 @@ local function flyMode()
 
         -- YAW (horizontal)
         if DEBUGINPUT then printDebug("fly: YAW CALCULATION") end
+        local horizontal = false
         local dX = 0
         local dZ = 0
 
         
         if left then 
+            horizontal = true
             if DEBUGINPUT then printDebug("fly: LEFT INFLUENCE") end
             dX = dX - 1
         end
 
         if right then 
+            horizontal = true
             if DEBUGINPUT then printDebug("fly: RIGHT INFLUENCE") end
             dX = dX + 1
         end
 
         if front then 
+            horizontal = true
             if DEBUGINPUT then printDebug("fly: FRONT INFLUENCE") end
             dZ = dZ + 1
         end 
 
         if back then 
+            horizontal = true
             if DEBUGINPUT then printDebug("fly: BACK INFLUENCE") end
             dZ = dZ - 1
         end 
+        local yaw = 0
+        if horizontal then
+            local dYaw = math.atan2(dX, dZ)
 
-        local dYaw = math.atan2(dX, dZ)
-
-        if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
-        dYaw = dYaw / FLYCALLSSINCELASTCONTROL
-        if DEBUGINPUT then printDebug("fly: dYaw = "..dYaw) end
-        
-        if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
-        local yaw  = addYaw(meta.yaw, dYaw)        
+            if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
+            dYaw = dYaw / FLYCALLSSINCELASTCONTROL
+            if DEBUGINPUT then printDebug("fly: dYaw = "..dYaw) end
+            
+            if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
+            yaw  = addYaw(meta.yaw, dYaw)        
+            if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..dYaw.." = "..yaw) end
+        end
         if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..dYaw.." = "..yaw) end
-
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
