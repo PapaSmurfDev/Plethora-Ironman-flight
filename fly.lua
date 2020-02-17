@@ -293,9 +293,8 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: dYaw = "..dYaw) end
         
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO YAW") end
-        local actualyaw = math.atan2(meta.motionX, meta.motionZ)
-        local yaw  = addYaw(actualyaw, dYaw)        
-        if DEBUGINPUT then printDebug("fly: yaw = "..actualyaw.." + "..dYaw.." = "..yaw) end
+        local yaw  = addYaw(meta.yaw, dYaw)        
+        if DEBUGINPUT then printDebug("fly: yaw = "..meta.yaw.." + "..dYaw.." = "..yaw) end
 
 
         -- PITCH (vertical)
@@ -312,7 +311,7 @@ local function flyMode()
             if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
             dY = dY * 0.5
         end           
-                
+        
         local dPitch = math.atan(meta.motionY + dY)
         
         if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
