@@ -319,7 +319,8 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: Delta = "..dPitch) end
 
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
-        local pitch =  dpitch--meta.pitch + dPitch       
+        local pitch = dPitch 
+        --meta.pitch + dPitch       
         if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..dPitch.." = "..pitch) end
 
 
