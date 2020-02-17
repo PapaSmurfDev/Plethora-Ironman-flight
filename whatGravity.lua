@@ -51,7 +51,7 @@ end
 
 -- MAIN LOOP
 print("whatgravity program started, press K to stop")
-
+-- 1.296 block per second
 parallel.waitForAny(
     function() 
         untilKill(controls, false)

@@ -300,42 +300,33 @@ local function flyMode()
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        local delta = 0
+        local dY = 1.3 -- gravity calculated, we aim to stabilize the player
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
         if up then 
-            dY = dY + 1
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
-            delta = delta + -90 
-            if DEBUGINPUT then printDebug("fly: Delta  = "..delta) end
+            dY = dY * 1.5
         end           
 
         if down then 
-            dY = dY + 1
             if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
-            delta = delta + 90 
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+            dY = dY * 0.5
         end           
                 
-        if left or right or front or back then 
-            if DEBUGINPUT then printDebug("fly: HORIZONTAL INFLUENCE") end
-            delta = delta / 4 
-            if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
-        end   
-        
+        local dPitch = math.atan(meta.motionY + dY)
         
         if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
-        delta = delta / FLYCALLSSINCELASTCONTROL
-        if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
+        dPitch = dPitch / FLYCALLSSINCELASTCONTROL
+        if DEBUGINPUT then printDebug("fly: Delta = "..dPitch) end
 
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
-        local pitch =  meta.pitch + delta        
-        if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..delta.." = "..pitch) end
+        local pitch =  meta.pitch + dPitch        
+        if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..dPitch.." = "..pitch) end
 
 
         -- POWER (speed)
         if DEBUGINPUT then printDebug("fly: POWER CALCULATION") end
-        delta = 0
+        local delta = 0
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
         
         if left or right or front or back then 
@@ -355,7 +346,7 @@ local function flyMode()
         if DEBUGINPUT then printDebug("fly: Delta = "..delta) end
 
         if DEBUGINPUT then printDebug("fly: DIMINISHING RETURNS INFLUENCE") end
-        local speed = (meta.motionY^2 + (meta.motionX^2)/10)^0.5 / FLYCALLSSINCELASTCONTROL
+        local speed = (meta.motionY^2 + (meta.motionX^2 + meta.motionZ^2)/10)^0.5 / FLYCALLSSINCELASTCONTROL
         local MAXSPEED = SPEEDMODE -- max is 4
         local power = math.min(MAXSPEED, speed+delta)
         if DEBUGINPUT then printDebug("fly: current speed = "..speed) end
