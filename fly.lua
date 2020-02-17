@@ -300,26 +300,26 @@ local function flyMode()
 
         -- PITCH (vertical)
         if DEBUGINPUT then printDebug("fly: PITCH CALCULATION") end
-        local dY = -90 -- 1.3 block/s gravity calculated, we aim to stabilize the player
+        local dY = 0 -- 1.3 block/s gravity calculated, we aim to stabilize the player
         
         if up then 
             if DEBUGINPUT then printDebug("fly: UP INFLUENCE") end
-            dY = dY * 1.5
+            dY = dY - 90
         end           
 
         if down then 
             if DEBUGINPUT then printDebug("fly: DOWN INFLUENCE") end
-            dY = dY * 0.5
+            dY = dY + 90
         end           
         
-        local dPitch = math.atan(meta.motionY + dY)
+        local dPitch = dY
         
         if DEBUGINPUT then printDebug("fly: ITERATIONS SINCE LAST CONTROL INFLUENCE") end
         dPitch = dPitch / FLYCALLSSINCELASTCONTROL
         if DEBUGINPUT then printDebug("fly: Delta = "..dPitch) end
 
         if DEBUGINPUT then printDebug("fly: APPLY DELTA TO PITCH") end
-        local pitch =  meta.pitch + dPitch       
+        local pitch =  dpitch--meta.pitch + dPitch       
         if DEBUGINPUT then printDebug("fly: pitch = "..meta.pitch.." + "..dPitch.." = "..pitch) end
 
 
@@ -355,7 +355,7 @@ local function flyMode()
         -- APPLY        
         if DEBUGINPUT then printDebug("fly: APPLY FLY VECTOR") end
         if DEBUGINPUT then printDebug("fly: launch("..yaw..", "..pitch..", "..power..")") end
-        modules.launch(yaw, -90, power)
+        modules.launch(yaw, pitch, power)
         os.queueEvent("fly")
     end
 end
