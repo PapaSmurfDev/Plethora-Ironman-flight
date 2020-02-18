@@ -289,7 +289,7 @@ local function flyMode()
         
         -- APPLY        
         
-        if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
+        if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..meta.yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
         modules.launch(meta.yaw, ACTUAL_PITCH, ACTUAL_THRUST)
         os.queueEvent("fly")
     end
