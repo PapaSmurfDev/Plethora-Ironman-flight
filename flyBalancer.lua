@@ -186,22 +186,22 @@ local function controls()
         upLastPressedTime = os.clock()
     end
     -- W => en avant
-    if key == keys.w then
+    if key == keys.up then
         front = true
         frontLastPressedTime = os.clock()
     end
     -- S => en arrière 
-    if key == keys.s then
+    if key == keys.down then
         back = true
         backLastPressedTime = os.clock()
     end
     -- A => à gauche
-    if key == keys.a then
+    if key == keys.left then
         left = true
         leftLastPressedTime = os.clock()
     end
     -- D => à droite
-    if key == keys.d then
+    if key == keys.right then
         right = true
         rightLastPressedTime = os.clock()
     end
