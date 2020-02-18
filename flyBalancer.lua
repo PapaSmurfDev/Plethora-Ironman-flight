@@ -271,17 +271,17 @@ local function flyMode()
 
         -- YAW (horizontal)
         
-        if back then 
+        if front then 
 
             ACTUAL_PITCH = ACTUAL_PITCH + 5
             if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
-            back = false
+            front = false
         end
 
-        if front then 
+        if back then 
             ACTUAL_PITCH = ACTUAL_PITCH - 5
             if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
-            front = false
+            back = false
         end
 
         if right then 
