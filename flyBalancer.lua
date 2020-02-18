@@ -240,12 +240,13 @@ local function flyMode()
     end
 end
 
+-- Get hold of the canvas
+local interface = peripheral.wrap("back")
+local canvas = interface.canvas()
+-- And add a rectangle
+local rect = canvas.addRectangle(0, 0, 100, 100, 0xFF0000FF)
+
 local function overlay()
-    -- Get hold of the canvas
-    local interface = peripheral.wrap("back")
-    local canvas = interface.canvas()
-    -- And add a rectangle
-    local rect = canvas.addRectangle(0, 0, 100, 100, 0xFF0000FF)
 
 end
 
