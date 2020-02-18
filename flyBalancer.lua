@@ -275,18 +275,22 @@ local function flyMode()
             if DEBUGINPUT then printDebug("fly: left(\n\tpitch: "..ACTUAL_PITCH..",\n\tACTUAL_PITCH/MAX_PITCH: "..(ACTUAL_PITCH/MAX_PITCH).."\n\t(MAX_PITCH - MIN_PITCH)/4:"..((MAX_PITCH - MIN_PITCH)/4)..")") end
 
             ACTUAL_PITCH = ACTUAL_PITCH + (1 - math.abs(ACTUAL_PITCH/MAX_PITCH))*((MAX_PITCH - MIN_PITCH)/4)
+            left = false
         end
 
         if right then 
             ACTUAL_PITCH = ACTUAL_PITCH - (1 - math.abs(ACTUAL_PITCH/MIN_PITCH))*((MAX_PITCH - MIN_PITCH)/4)
+            right = false
         end
 
         if front then 
             ACTUAL_THRUST = ACTUAL_THRUST + (1 - math.abs(ACTUAL_THRUST/MAX_THRUST))*((MAX_THRUST - MIN_THRUST)/4)
+            front = false
         end 
 
         if back then 
             ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs((1+MIN_THRUST)/(1+ACTUAL_THRUST)))*((MAX_THRUST - MIN_THRUST)/4)
+            back = false
         end 
         
         -- APPLY        
