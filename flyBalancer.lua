@@ -69,12 +69,12 @@ local FAST = 1
 local NORMAL = 0.5
 local SPEEDMODE = NORMAL
 
-local MAX_THRUST = 4
-local MIN_THRUST = 0
+local MAX_THRUST = 0.2
+local MIN_THRUST = 0.15
 local ACTUAL_THRUST = (MAX_THRUST - MIN_THRUST) / 2
 
-local MAX_PITCH = -90
-local MIN_PITCH = 90
+local MAX_PITCH = 90
+local MIN_PITCH = -90
 local ACTUAL_PITCH = (MAX_PITCH - MIN_PITCH) / 2
 
 
@@ -271,17 +271,17 @@ local function flyMode()
 
         -- YAW (horizontal)
         
-        if left then 
+        if right then 
 
             ACTUAL_PITCH = ACTUAL_PITCH + 0.01
             if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
-            left = false
+            right = false
         end
 
-        if right then 
+        if left then 
             ACTUAL_PITCH = ACTUAL_PITCH - 0.01
             if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
-            right = false
+            left = false
         end
 
         if front then 
