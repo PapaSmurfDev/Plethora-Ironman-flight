@@ -286,7 +286,7 @@ local function flyMode()
         end 
 
         if back then 
-            ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs((1+ACTUAL_THRUST)/(1+MIN_THRUST)))*((MAX_THRUST - MIN_THRUST)/4)
+            ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs((1+MIN_THRUST)/(1+ACTUAL_THRUST)))*((MAX_THRUST - MIN_THRUST)/4)
         end 
         
         -- APPLY        
