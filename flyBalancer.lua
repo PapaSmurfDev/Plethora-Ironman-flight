@@ -272,7 +272,9 @@ local function flyMode()
         -- YAW (horizontal)
         
         if left then 
-            ACTUAL_PITCH = ACTUAL_PITCH + (1 - math.abs(ACTUAL_PITCH/MAX_PITCH))*(MAX_PITCH/2)
+            if DEBUGINPUT then printDebug("fly: up(\n\tpitch: "..ACTUAL_PITCH..",\n\tACTUAL_PITCH/MAX_PITCH: "..(ACTUAL_PITCH/MAX_PITCH).."\n\t(MAX_PITCH - MIN_PITCH)/4:"..((MAX_PITCH - MIN_PITCH)/4)..")") end
+
+            ACTUAL_PITCH = ACTUAL_PITCH + (1 - math.abs(ACTUAL_PITCH/MAX_PITCH))*((MAX_PITCH - MIN_PITCH)/4)
         end
 
         if right then 
