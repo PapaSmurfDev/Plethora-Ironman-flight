@@ -272,7 +272,7 @@ local function flyMode()
         -- YAW (horizontal)
         
         if left then 
-            if DEBUGINPUT then printDebug("fly: up(\n\tpitch: "..ACTUAL_PITCH..",\n\tACTUAL_PITCH/MAX_PITCH: "..(ACTUAL_PITCH/MAX_PITCH).."\n\t(MAX_PITCH - MIN_PITCH)/4:"..((MAX_PITCH - MIN_PITCH)/4)..")") end
+            if DEBUGINPUT then printDebug("fly: left(\n\tpitch: "..ACTUAL_PITCH..",\n\tACTUAL_PITCH/MAX_PITCH: "..(ACTUAL_PITCH/MAX_PITCH).."\n\t(MAX_PITCH - MIN_PITCH)/4:"..((MAX_PITCH - MIN_PITCH)/4)..")") end
 
             ACTUAL_PITCH = ACTUAL_PITCH + (1 - math.abs(ACTUAL_PITCH/MAX_PITCH))*((MAX_PITCH - MIN_PITCH)/4)
         end
@@ -286,7 +286,7 @@ local function flyMode()
         end 
 
         if back then 
-            ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs(ACTUAL_THRUST/MIN_THRUST))*((MAX_THRUST - MIN_THRUST)/4)
+            ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs((1+ACTUAL_THRUST)/(1+MIN_THRUST)))*((MAX_THRUST - MIN_THRUST)/4)
         end 
         
         -- APPLY        
