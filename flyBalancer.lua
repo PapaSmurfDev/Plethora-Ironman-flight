@@ -276,15 +276,15 @@ local function flyMode()
         end
 
         if right then 
-            ACTUAL_PITCH = ACTUAL_PITCH + (1 - math.abs(ACTUAL_PITCH/MIN_PITCH))*(MIN_PITCH/2)
+            ACTUAL_PITCH = ACTUAL_PITCH - (1 - math.abs(ACTUAL_PITCH/MIN_PITCH))*((MAX_PITCH - MIN_PITCH)/4)
         end
 
         if front then 
-            ACTUAL_THRUST = ACTUAL_THRUST + (1 - math.abs(ACTUAL_THRUST/MAX_THRUST))*(MAX_THRUST/2)
+            ACTUAL_THRUST = ACTUAL_THRUST + (1 - math.abs(ACTUAL_THRUST/MAX_THRUST))*((MAX_THRUST - MIN_THRUST)/4)
         end 
 
         if back then 
-            ACTUAL_THRUST = ACTUAL_THRUST + (1 - math.abs(ACTUAL_THRUST/MIN_THRUST))*(MIN_THRUST/2)
+            ACTUAL_THRUST = ACTUAL_THRUST - (1 - math.abs(ACTUAL_THRUST/MIN_THRUST))*((MAX_THRUST - MIN_THRUST)/4)
         end 
         
         -- APPLY        
