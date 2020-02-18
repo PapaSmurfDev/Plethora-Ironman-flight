@@ -271,29 +271,29 @@ local function flyMode()
 
         -- YAW (horizontal)
         
-        if right then 
+        if back then 
 
             ACTUAL_PITCH = ACTUAL_PITCH + 5
             if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
-            right = false
-        end
-
-        if left then 
-            ACTUAL_PITCH = ACTUAL_PITCH - 5
-            if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
-            left = false
+            back = false
         end
 
         if front then 
+            ACTUAL_PITCH = ACTUAL_PITCH - 5
+            if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
+            front = false
+        end
+
+        if right then 
             ACTUAL_THRUST = ACTUAL_THRUST + 0.01
             if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end
-            front = false
+            right = false
         end 
 
-        if back then 
+        if left then 
             ACTUAL_THRUST = ACTUAL_THRUST - 0.01
             if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end
-            back = false
+            left = false
         end 
         
         -- APPLY        
