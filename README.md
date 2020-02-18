@@ -17,7 +17,7 @@ pastebin run p8PJVxC4
 I also have the habit to alias github as git as such:
 
 ```sh
-alias github git
+alias git github
 ```
 
 ### 2. Clone the repository
