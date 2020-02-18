@@ -273,13 +273,13 @@ local function flyMode()
         
         if right then 
 
-            ACTUAL_PITCH = ACTUAL_PITCH + 2
+            ACTUAL_PITCH = ACTUAL_PITCH + 5
             if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
             right = false
         end
 
         if left then 
-            ACTUAL_PITCH = ACTUAL_PITCH - 2
+            ACTUAL_PITCH = ACTUAL_PITCH - 5
             if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
             left = false
         end
