@@ -32,7 +32,7 @@ if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic 
 
 -- DEBUG CONTROL
 local DEBUGCALLS = false
-local DEBUGINPUT = false
+local DEBUGINPUT = true
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -289,7 +289,7 @@ local function flyMode()
         
         -- APPLY        
         
-        if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..yaw..",\n\tpitch: "..pitch..",\n\tthrust: "..power..")") end
+        if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
         modules.launch(meta.yaw, ACTUAL_PITCH, ACTUAL_THRUST)
         os.queueEvent("fly")
     end
