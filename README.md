@@ -46,3 +46,15 @@ This script is an updater, it auto clones the repo onto itself using the github 
 
 This script is an attempt to emulate creative flight, but using the Neural Interface ```.launch(yaw, pitch, power)``` function as propulsion system!
 You can see an example of me trying to balance the thrusting power [here!](https://www.youtube.com/watch?v=yfzn9IO32pM&lc=z231tliztsbbcnoys04t1aokg4vtpt0nkz3c4uxpojgbbk0h00410)
+
+As of fly MK.III, the controls are:
+
+- W : pitch up
+- S : pitch down
+- Space : thrust up
+- LeftShift : thrust down
+- , : shift down the speed mode
+- . : shift up the speed mode
+- double space : start / stop fly mode
+
+You can see a demo [here!](https://www.youtube.com/watch?v=jCgeY8SNuOk&feature=youtu.be)
