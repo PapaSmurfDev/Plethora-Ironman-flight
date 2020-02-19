@@ -251,7 +251,7 @@ local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
 speedgroup.addText({10,90}, "Pitch")
 local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
 speedgroup.addText({10,110}, "Total")
-local totalSpeed = speedgroup.addText({10,60}, round(calcTotalSpeed()).."m/s")
+local totalSpeed = speedgroup.addText({10,120}, round(calcTotalSpeed()).."m/s")
 
 
 local function overlay()
