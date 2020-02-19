@@ -256,6 +256,31 @@ local function flyMode()
     end
 end
 
+local function getOrientation(pitch)
+    if  (pitch >= 0) then
+        if (pitch < 45) then
+            return "front"
+        elseif (pitch < 135 )  then
+            return "down"
+        elseif (pitch < 225 ) then
+            return "back"
+        else 
+            return "up"
+        end
+    else
+        if (-pitch < 45)  then
+            return "front"
+        elseif (-pitch < 135 )  then
+            return "up"
+        elseif (-pitch < 225 ) then
+            return "back"
+        else 
+            return "down"
+        end
+    end
+end
+
+
 -- Get hold of the canvas
 local interface = peripheral.wrap("back")
 local canvas = interface.canvas()
@@ -275,16 +300,15 @@ local XSpeed = speedgroup.addText({10,60}, round(meta.motionX).."b/s")
 speedgroup.addText({10,70}, "Thrust")
 local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
 speedgroup.addText({10,90}, "Pitch")
-local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees")
+local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
+
 
 local function overlay()
     YSpeed.setText(round(meta.motionY).."b/s")
     XSpeed.setText(round(meta.motionX).."b/s")
     ZSpeed.setText(round(meta.motionZ).."b/s")
     ThrustSpeed.setText((round(ACTUAL_THRUST)*100).."%")
-    if ((ACTUAL_PITCH > 0) and (ACTUAL_PITCH <= 90)) or ((ACTUAL_PITCH < 0) and (ACTUAL_PITCH < ))
-        type = "UP"
-    PitchSpeed.setText(round(ACTUAL_PITCH).."degrees ("..type..")")
+    PitchSpeed.setText(round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
 end
 
 
