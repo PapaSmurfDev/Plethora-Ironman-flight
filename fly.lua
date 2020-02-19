@@ -161,26 +161,26 @@ local function controls()
 
     end
     -- W => en avant
-    if key == keys.up then
+    if key == keys.w then
         front = true
         frontLastPressedTime = os.clock()
         ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
 
     end
     -- S => en arrière 
-    if key == keys.down then
+    if key == keys.s then
         back = true
         backLastPressedTime = os.clock()
         ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
 
     end
     -- A => à gauche
-    if key == keys.left then
+    if key == keys.a then
         left = true
         leftLastPressedTime = os.clock()
     end
     -- D => à droite
-    if key == keys.right then
+    if key == keys.d then
         right = true
         rightLastPressedTime = os.clock()
     end
