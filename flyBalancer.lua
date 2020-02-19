@@ -61,7 +61,7 @@ local ACTUAL_THRUST = ((MAX_THRUST - MIN_THRUST) / 2)+MIN_THRUST
 local MAX_PITCH = 90
 local MIN_PITCH = -90
 local PITCH_GRADIENT = 45/5 --(MAX_PITCH - MIN_PITCH) / 10 
-local ACTUAL_PITCH = -90 --((MAX_PITCH - MIN_PITCH) / 2)+MIN_PITCH
+local ACTUAL_PITCH = 0 --((MAX_PITCH - MIN_PITCH) / 2)+MIN_PITCH
 
 
 local fly = false
@@ -190,14 +190,14 @@ local function controls()
     if key == keys.up then
         front = true
         frontLastPressedTime = os.clock()
-        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
+        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
 
     end
     -- S => en arrière 
     if key == keys.down then
         back = true
         backLastPressedTime = os.clock()
-        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
+        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
 
     end
     -- A => à gauche
