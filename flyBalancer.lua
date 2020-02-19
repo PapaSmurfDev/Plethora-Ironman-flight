@@ -244,10 +244,23 @@ end
 local interface = peripheral.wrap("back")
 local canvas = interface.canvas()
 -- And add a rectangle
-local rect = canvas.addRectangle(0, 0, 100, 100, 0xFF0000FF)
-
+local speedgroup = canvas.addGroup({0,0})
+speedgroup.addText({0,0}, "Vertical")
+local YSpeed =speedgroup.addText({1,0}, meta.motionY.."b/s")
+speedgroup.addText({2,0}, "South-North")
+local ZSpeed =speedgroup.addText({3,0}, meta.motionZ.."b/s")
+speedgroup.addText({4,0}, "West-East")
+local XSpeed = speedgroup.addText({5,0}, meta.motionX.."b/s")
+speedgroup.addText({6,0}, "Thrust")
+local ThrustSpeed = speedgroup.addText({7,0}, ACTUAL_THRUST.."%")
+speedgroup.addText({8,0}, "Pitch")
+local PitchSpeed = speedgroup.addText({9,0}, ACTUAL_PITCH.."degrees")
 local function overlay()
-
+    YSpeed.setText(meta.motionY.."b/s")
+    XSpeed.setText(meta.motionX.."b/s")
+    ZSpeed.setText(meta.motionZ.."b/s")
+    ThrustSpeed.setText(ACTUAL_THRUST.."%")
+    PitchSpeed.setText(ACTUAL_PITCH.."degrees")
 end
 
 
@@ -269,7 +282,7 @@ parallel.waitForAny(
         untilKill(controls, false)
     end,
     function() 
-        untilKill(overlay, false)
+        untilKill(overlay, true)
     end,
     function() 
         untilKill(flyMode, false)
