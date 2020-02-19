@@ -165,21 +165,31 @@ local function controls()
     if key == keys.shift then
         down = true
         downLastPressedTime = os.clock()
+        ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
+        if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end
+
     end
     -- space => montée 
     if key == keys.space then 
         up = true
         upLastPressedTime = os.clock()
+        ACTUAL_THRUST = ACTUAL_THRUST + THRUST_GRADIENT
+        if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end
+
     end
     -- W => en avant
     if key == keys.up then
         front = true
         frontLastPressedTime = os.clock()
+        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
+
     end
     -- S => en arrière 
     if key == keys.down then
         back = true
         backLastPressedTime = os.clock()
+        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
+
     end
     -- A => à gauche
     if key == keys.left then
@@ -220,36 +230,10 @@ end
 local function flyMode()
     os.pullEvent("fly")
     
-    if DEBUGCALLS then printDebug("fly") end
+    if DEBUGCALLS then printDebug("fly") end    
+    -- APPLY        
     if fly then
-        FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1
-        
-        if back then 
-            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
-            --if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
-            back = false
-        end
-
-        if front then 
-            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
-            --if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
-            front = false
-        end
-
-        if right then 
-            ACTUAL_THRUST = ACTUAL_THRUST + THRUST_GRADIENT
-            if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end
-            right = false
-        end 
-
-        if left then 
-            ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
-            if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end
-            left = false
-        end 
-        
-        -- APPLY        
-        
+        FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1    
         if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..meta.yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
         modules.launch(meta.yaw, ACTUAL_PITCH, ACTUAL_THRUST)
         os.queueEvent("fly")
