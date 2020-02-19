@@ -47,9 +47,9 @@ local function refreshMeta()
 end
 
 -- CONTROLS
-local LIGHTSPEED = 1
-local FASTER = 0.5
-local FAST = 0.3
+local LIGHTSPEED = 4
+local FASTER = 2.5
+local FAST = 1
 local NORMAL = 0.2
 local SPEEDMODE = NORMAL
 
@@ -60,7 +60,7 @@ local ACTUAL_THRUST = ((MAX_THRUST - MIN_THRUST) / 2)+MIN_THRUST
 
 local MAX_PITCH = 90
 local MIN_PITCH = -90
-local PITCH_GRADIENT = (MAX_PITCH - MIN_PITCH) / 10 
+local PITCH_GRADIENT = 45/2 --(MAX_PITCH - MIN_PITCH) / 10 
 local ACTUAL_PITCH = ((MAX_PITCH - MIN_PITCH) / 2)+MIN_PITCH
 
 
@@ -141,6 +141,8 @@ local function controls()
         else
             print("Speed mode is already maximal (warning: high altitude might lead to death by asphyxia)")
         end
+        MAX_THRUST = SPEEDMODE
+        THRUST_GRADIENT = (MAX_THRUST - MIN_THRUST) / 10
     end
     -- comma (,) => slowdown
     if key == keys.comma then
@@ -156,6 +158,8 @@ local function controls()
         else
             print("Speed mode is already minimal")
         end
+        MAX_THRUST = SPEEDMODE
+        THRUST_GRADIENT = (MAX_THRUST - MIN_THRUST) / 10
     end
     -- shift => descente
     if key == keys.shift then
@@ -201,6 +205,18 @@ local function controls()
     os.queueEvent("refreshMeta")
 end
 
+
+local function addPitch(theta, delta)
+    theta = theta + delta
+    if theta < -360 then
+        theta = theta + 360
+    elseif theta > 360 then
+        theta = theta - 360
+    end
+    return theta
+end
+
+
 local function flyMode()
     os.pullEvent("fly")
     
@@ -209,14 +225,14 @@ local function flyMode()
         FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1
         
         if back then 
-            ACTUAL_PITCH = ACTUAL_PITCH + PITCH_GRADIENT
-            if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
+            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
+            --if ACTUAL_PITCH > MAX_PITCH then ACTUAL_PITCH = MAX_PITCH end
             back = false
         end
 
         if front then 
-            ACTUAL_PITCH = ACTUAL_PITCH - PITCH_GRADIENT
-            if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
+            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
+            --if ACTUAL_PITCH < MIN_PITCH then ACTUAL_PITCH = MIN_PITCH end
             front = false
         end
 
@@ -265,8 +281,10 @@ local function overlay()
     YSpeed.setText(round(meta.motionY).."b/s")
     XSpeed.setText(round(meta.motionX).."b/s")
     ZSpeed.setText(round(meta.motionZ).."b/s")
-    ThrustSpeed.setText(round(ACTUAL_THRUST).."%")
-    PitchSpeed.setText(round(ACTUAL_PITCH).."degrees")
+    ThrustSpeed.setText((round(ACTUAL_THRUST)*100).."%")
+    if ((ACTUAL_PITCH > 0) and (ACTUAL_PITCH <= 90)) or ((ACTUAL_PITCH < 0) and (ACTUAL_PITCH < ))
+        type = "UP"
+    PitchSpeed.setText(round(ACTUAL_PITCH).."degrees ("..type..")")
 end
 
 
