@@ -233,28 +233,29 @@ local function flyMode()
     if fly then
         FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1    
         if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..meta.yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
-        modules.launch(meta.yaw, ACTUAL_PITCH, ACTUAL_THRUST)
+        -- we shift the pitch in order to get up at 90 degrees and 0 at horizontal.
+        modules.launch(meta.yaw,math.fmod( -ACTUAL_PITCH , 360), ACTUAL_THRUST)
         os.queueEvent("fly")
     end
 end
 
 local function getOrientation(pitch)
+
+    --                 ^ 90
+    --                 |
+    --                 |
+    -- 180 *-----------|------------> 0
+    --                 |
+    --                 |
+    --                 * 270
+
+
     if  (pitch >= 0) then
-        if (pitch < 45) then
+        if (pitch < 45 or pitch >= 315) then
             return "front"
         elseif (pitch < 135 )  then
-            return "down"
+            return "up"
         elseif (pitch < 225 ) then
-            return "back"
-        else 
-            return "up"
-        end
-    else
-        if (-pitch < 45)  then
-            return "front"
-        elseif (-pitch < 135 )  then
-            return "up"
-        elseif (-pitch < 225 ) then
             return "back"
         else 
             return "down"
