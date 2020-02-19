@@ -245,23 +245,28 @@ local interface = peripheral.wrap("back")
 local canvas = interface.canvas()
 canvas.clear()
 -- And add a rectangle
+
+local function round(value)
+    return math.floor(value * 100)/100
+end
 local speedgroup = canvas.addGroup({10,0})
 speedgroup.addText({10,10}, "Vertical")
-local YSpeed =speedgroup.addText({10,20}, meta.motionY.."b/s")
+local YSpeed =speedgroup.addText({10,20}, round(meta.motionY).."b/s")
 speedgroup.addText({10,30}, "South-North")
-local ZSpeed =speedgroup.addText({10,40}, meta.motionZ.."b/s")
+local ZSpeed =speedgroup.addText({10,40}, round(meta.motionZ).."b/s")
 speedgroup.addText({10,50}, "West-East")
-local XSpeed = speedgroup.addText({10,60}, meta.motionX.."b/s")
+local XSpeed = speedgroup.addText({10,60}, round(meta.motionX).."b/s")
 speedgroup.addText({10,70}, "Thrust")
-local ThrustSpeed = speedgroup.addText({10,80}, ACTUAL_THRUST.."%")
+local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
 speedgroup.addText({10,90}, "Pitch")
-local PitchSpeed = speedgroup.addText({10,100}, ACTUAL_PITCH.."degrees")
+local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees")
+
 local function overlay()
-    YSpeed.setText(meta.motionY.."b/s")
-    XSpeed.setText(meta.motionX.."b/s")
-    ZSpeed.setText(meta.motionZ.."b/s")
-    ThrustSpeed.setText(ACTUAL_THRUST.."%")
-    PitchSpeed.setText(ACTUAL_PITCH.."degrees")
+    YSpeed.setText(round(meta.motionY).."b/s")
+    XSpeed.setText(round(meta.motionX).."b/s")
+    ZSpeed.setText(round(meta.motionZ).."b/s")
+    ThrustSpeed.setText(round(ACTUAL_THRUST).."%")
+    PitchSpeed.setText(round(ACTUAL_PITCH).."degrees")
 end
 
 
