@@ -1,23 +1,9 @@
-local yieldTime = os.clock()
-local function yield()
-    coroutine.yield()
-    --local YIELD_SPAN = 0.5
-    --if os.clock() - yieldTime > YIELD_SPAN then
-    --    os.queueEvent("yield")
-    --    os.pullEvent("yield")
-    --    yieldTime = os.clock()
-    --end
-end
-
-local DEBUG_LOG_FILE = "./fly_debug.log"
-if fs.exists(DEBUG_LOG_FILE) then fs.delete(DEBUG_LOG_FILE) end
+-- fly system mk III
+-- created and tested by Helldragger, have fun with it!
 
 local function printDebug(msg)
     msg = msg.."\n"
     print(msg)
-    --local log = fs.open(DEBUG_LOG_FILE, "a")
-    --log.write(msg)
-    --log.close()
 end
 
 -- NEURAL INTERFACE REQUIRED
@@ -29,10 +15,6 @@ if not modules.hasModule("plethora:sensor") then error("Must have a sensor", 0) 
 if not modules.hasModule("plethora:introspection") then error("Must have an introspection module", 0) end
 if not modules.hasModule("plethora:kinetic", 0) then error("Must have a kinetic agument", 0) end
 if not modules.hasModule("plethora:glasses") then error("The overlay glasses are missing", 0) end
-
--- DEBUG CONTROL
-local DEBUGCALLS = false
-local DEBUGINPUT = true
 
 -- KILL SWITCH CONTROL
 local stop = false
@@ -99,7 +81,6 @@ end
 local function controls()
     local event, key, held = os.pullEvent("key")
     FLYCALLSSINCELASTCONTROL = 0
-    if DEBUGCALLS then printDebug("controls") end
     down = (os.clock()-downLastPressedTime)<KEY_UP_THRESHOLD
     up = (os.clock()-upLastPressedTime)<KEY_UP_THRESHOLD
     front = (os.clock()-frontLastPressedTime)<KEY_UP_THRESHOLD
@@ -107,13 +88,6 @@ local function controls()
     right = (os.clock()-rightLastPressedTime)<KEY_UP_THRESHOLD
     left = (os.clock()-leftLastPressedTime)<KEY_UP_THRESHOLD
 
-    if DEBUGINPUT then 
-        if held then
-            printDebug( "[key   ] " .. key .. "(held)")
-        else
-            printDebug( "[key   ] " .. key .. "(down)")
-        end
-    end
 
     if key == keys.k then
         stop = true
@@ -210,16 +184,6 @@ local function controls()
         right = true
         rightLastPressedTime = os.clock()
     end
-    if DEBUGINPUT then
-        local pressed = ""
-        if up then pressed = pressed.."UP " end
-        if down then pressed = pressed.."DOWN " end
-        if front then pressed = pressed.."FRONT " end
-        if back then pressed = pressed.."BACK " end
-        if right then pressed = pressed.."RIGHT " end
-        if left then pressed = pressed.."LEFT " end
-        printDebug(pressed)
-    end
     -- on refresh nos données
     os.queueEvent("refreshMeta")
 end
@@ -227,12 +191,9 @@ end
 
 local function flyMode()
     os.pullEvent("fly")
-    
-    if DEBUGCALLS then printDebug("fly") end    
     -- APPLY        
     if fly then
         FLYCALLSSINCELASTCONTROL = FLYCALLSSINCELASTCONTROL + 1    
-        if DEBUGINPUT then printDebug("fly: launch(\n\tyaw: "..meta.yaw..",\n\tpitch: "..ACTUAL_PITCH..",\n\tthrust: "..ACTUAL_THRUST..")") end
         -- we shift the pitch in order to get up at 90 degrees and 0 at horizontal.
         modules.launch(meta.yaw,math.fmod( -ACTUAL_PITCH , 360), ACTUAL_THRUST)
         os.queueEvent("fly")
@@ -297,7 +258,7 @@ end
 
 local function untilKill(func, doesYield)
     while not stop do
-        if doesYield then yield() end
+        if doesYield then coroutine.yield() end
         func()
     end
 end
