@@ -270,7 +270,7 @@ local totalSpeed = speedgroup.addText({10,40}, round(calcTotalSpeed()).."m/s")
 speedgroup.addText({10,50}, "Speed mode")
 local speedMode = speedgroup.addText({10,60}, getSpeedMode())
 speedgroup.addText({10,70}, "Thrust")
-local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
+local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST)*100.."%")
 speedgroup.addText({10,90}, "Pitch")
 local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
 
