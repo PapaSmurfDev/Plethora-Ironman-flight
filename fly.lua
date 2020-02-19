@@ -142,6 +142,7 @@ local function controls()
             print("Speed mode is already minimal")
         end
         MAX_THRUST = SPEEDMODE
+        if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end
         THRUST_GRADIENT = (MAX_THRUST - MIN_THRUST) / 10
     end
     -- shift => descente
@@ -149,7 +150,7 @@ local function controls()
         down = true
         downLastPressedTime = os.clock()
         ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
-        if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end
+        if fly then if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end end
 
     end
     -- space => montée 
@@ -157,21 +158,21 @@ local function controls()
         up = true
         upLastPressedTime = os.clock()
         ACTUAL_THRUST = ACTUAL_THRUST + THRUST_GRADIENT
-        if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end
+        if fly then if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end end
 
     end
     -- W => en avant
     if key == keys.w then
         front = true
         frontLastPressedTime = os.clock()
-        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT)
+        if fly then ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT) end
 
     end
     -- S => en arrière 
     if key == keys.s then
         back = true
         backLastPressedTime = os.clock()
-        ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT)
+        if fly then ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT) end
 
     end
     -- A => à gauche
@@ -234,6 +235,10 @@ canvas.clear()
 local function round(value)
     return math.floor(value * 100)/100
 end
+local function calcTotalSpeed()
+    return (meta.motionX^2 + meta.motionY^2 + meta.motionZ^2)^0.5    
+end
+
 local speedgroup = canvas.addGroup({10,0})
 speedgroup.addText({10,10}, "Vertical")
 local YSpeed =speedgroup.addText({10,20}, round(meta.motionY).."m/s")
@@ -245,12 +250,15 @@ speedgroup.addText({10,70}, "Thrust")
 local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
 speedgroup.addText({10,90}, "Pitch")
 local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
+speedgroup.addText({10,110}, "Total")
+local totalSpeed = speedgroup.addText({10,60}, round(calcTotalSpeed()).."m/s")
 
 
 local function overlay()
     YSpeed.setText(round(meta.motionY).."m/s")
     XSpeed.setText(round(meta.motionX).."m/s")
     ZSpeed.setText(round(meta.motionZ).."m/s")
+    totalSpeed.setText(round(calcTotalSpeed()).."m/s")
     ThrustSpeed.setText((round(ACTUAL_THRUST)*100).."%")
     PitchSpeed.setText(round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
 end
