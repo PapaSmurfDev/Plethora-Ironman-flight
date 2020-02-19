@@ -87,6 +87,17 @@ local spacePressed = false
 
 local FLYCALLSSINCELASTCONTROL = 1
 
+local function addPitch(theta, delta)
+    theta = theta + delta
+    if theta < -360 then
+        theta = theta + 360
+    elseif theta > 360 then
+        theta = theta - 360
+    end
+    return theta
+end
+
+
 local function controls()
     local event, key, held = os.pullEvent("key")
     FLYCALLSSINCELASTCONTROL = 0
@@ -213,17 +224,6 @@ local function controls()
     end
     -- on refresh nos données
     os.queueEvent("refreshMeta")
-end
-
-
-local function addPitch(theta, delta)
-    theta = theta + delta
-    if theta < -360 then
-        theta = theta + 360
-    elseif theta > 360 then
-        theta = theta - 360
-    end
-    return theta
 end
 
 
