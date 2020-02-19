@@ -171,7 +171,7 @@ local function controls()
         THRUST_GRADIENT = (MAX_THRUST - MIN_THRUST) / 10
     end
     -- shift => descente
-    if key == keys.shift then
+    if key == keys.leftShift then
         down = true
         downLastPressedTime = os.clock()
         ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
