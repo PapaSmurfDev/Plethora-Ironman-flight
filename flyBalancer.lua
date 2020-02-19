@@ -88,13 +88,7 @@ local spacePressed = false
 local FLYCALLSSINCELASTCONTROL = 1
 
 local function addPitch(theta, delta)
-    theta = theta + delta
-    if theta < -360 then
-        theta = theta + 360
-    elseif theta > 360 then
-        theta = theta - 360
-    end
-    return theta
+    return math.fmod( theta + delta, 360 )
 end
 
 
