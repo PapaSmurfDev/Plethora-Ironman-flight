@@ -243,6 +243,7 @@ end
 -- Get hold of the canvas
 local interface = peripheral.wrap("back")
 local canvas = interface.canvas()
+canvas.clear()
 -- And add a rectangle
 local speedgroup = canvas.addGroup({0,0})
 speedgroup.addText({0,10}, "Vertical")
