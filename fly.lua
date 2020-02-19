@@ -250,25 +250,34 @@ local function calcTotalSpeed()
     return (meta.motionX^2 + meta.motionY^2 + meta.motionZ^2)^0.5    
 end
 
+local function getSpeedMode()
+    if SPEEDMODE == LIGHTSPEED then
+        return "LIGHTSPEED"
+    elseif SPEEDMODE == FASTER then
+        return "FASTER"
+    elseif SPEEDMODE == FAST then
+        return "FAST"
+    else
+        return "NORMAL"
+    end
+end
+
 local speedgroup = canvas.addGroup({10,0})
 speedgroup.addText({10,10}, "Vertical")
 local YSpeed =speedgroup.addText({10,20}, round(meta.motionY).."m/s")
-speedgroup.addText({10,30}, "South-North")
-local ZSpeed =speedgroup.addText({10,40}, round(meta.motionZ).."m/s")
-speedgroup.addText({10,50}, "West-East")
-local XSpeed = speedgroup.addText({10,60}, round(meta.motionX).."m/s")
+speedgroup.addText({10,30}, "Total")
+local totalSpeed = speedgroup.addText({10,40}, round(calcTotalSpeed()).."m/s")
+speedgroup.addText({10,50}, "Speed mode")
+local speedMode = speedgroup.addText({10,60}, getSpeedMode())
 speedgroup.addText({10,70}, "Thrust")
 local ThrustSpeed = speedgroup.addText({10,80}, round(ACTUAL_THRUST).."%")
 speedgroup.addText({10,90}, "Pitch")
 local PitchSpeed = speedgroup.addText({10,100}, round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
-speedgroup.addText({10,110}, "Total")
-local totalSpeed = speedgroup.addText({10,120}, round(calcTotalSpeed()).."m/s")
 
 
 local function overlay()
     YSpeed.setText(round(meta.motionY).."m/s")
-    XSpeed.setText(round(meta.motionX).."m/s")
-    ZSpeed.setText(round(meta.motionZ).."m/s")
+    speedMode.setText(getSpeedMode())
     totalSpeed.setText(round(calcTotalSpeed()).."m/s")
     ThrustSpeed.setText((round(ACTUAL_THRUST)*100).."%")
     PitchSpeed.setText(round(ACTUAL_PITCH).."degrees ("..getOrientation(ACTUAL_PITCH)..")")
