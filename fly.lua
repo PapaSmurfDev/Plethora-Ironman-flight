@@ -149,30 +149,41 @@ local function controls()
     if key == keys.leftShift then
         down = true
         downLastPressedTime = os.clock()
-        ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
-        if fly then if ACTUAL_THRUST < MIN_THRUST then ACTUAL_THRUST = MIN_THRUST end end
-
+        if fly then 
+            ACTUAL_THRUST = ACTUAL_THRUST - THRUST_GRADIENT
+            if ACTUAL_THRUST < MIN_THRUST then 
+                ACTUAL_THRUST = MIN_THRUST 
+            end 
+        end
     end
     -- space => montée 
     if key == keys.space then 
         up = true
         upLastPressedTime = os.clock()
-        ACTUAL_THRUST = ACTUAL_THRUST + THRUST_GRADIENT
-        if fly then if ACTUAL_THRUST > MAX_THRUST then ACTUAL_THRUST = MAX_THRUST end end
+        if fly then 
+            ACTUAL_THRUST = ACTUAL_THRUST + THRUST_GRADIENT
+            if ACTUAL_THRUST > MAX_THRUST then 
+                ACTUAL_THRUST = MAX_THRUST 
+            end 
+        end
 
     end
     -- W => en avant
     if key == keys.w then
         front = true
         frontLastPressedTime = os.clock()
-        if fly then ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT) end
+        if fly then 
+            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, PITCH_GRADIENT) 
+        end
 
     end
     -- S => en arrière 
     if key == keys.s then
         back = true
         backLastPressedTime = os.clock()
-        if fly then ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT) end
+        if fly then 
+            ACTUAL_PITCH = addPitch(ACTUAL_PITCH, -PITCH_GRADIENT) 
+        end
 
     end
     -- A => à gauche
