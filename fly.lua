@@ -36,7 +36,7 @@ local NORMAL = 0.2
 local SPEEDMODE = NORMAL
 
 local MAX_THRUST = SPEEDMODE
-local MIN_THRUST = 0
+local MIN_THRUST = 0.1
 local THRUST_GRADIENT = 0.01
 local ACTUAL_THRUST = 0.15
 
