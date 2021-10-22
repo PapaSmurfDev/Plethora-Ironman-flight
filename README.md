@@ -58,3 +58,10 @@ As of fly MK.III, the controls are:
 - double space : start / stop fly mode
 
 You can see a demo [here!](https://www.youtube.com/watch?v=jCgeY8SNuOk&feature=youtu.be)
+
+#### Required Modules for fly:
+* Entity Sensor
+* Keyboard
+* Overlay Glasses
+* Kinetic Augment
+* Introspection Module
