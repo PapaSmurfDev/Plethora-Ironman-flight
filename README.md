@@ -1,4 +1,4 @@
-# CC-Plethora-Scripts
+# CC-Plethora-Scripts (Forked from Hell-Dagger)
 
 A bunch of personal CC:Tweaked + Plethora scripts tested on Enigmatica 2: Expert
 
@@ -23,7 +23,8 @@ alias git github
 ### 2. Clone the repository
 
 ```sh
-git clone helldragger/CC-Plethora-Scripts
+git clone PapaSmurfDev/Plethora-Ironman-flight
+
 ```
 
 This will clone the whole repo into a CC-Plethora-Scripts directory.
