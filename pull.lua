@@ -1,5 +1,5 @@
 local currentDir = fs.getDir(shell.getRunningProgram())
 local parentDir = fs.getDir(currentDir)
 shell.setDir(parentDir)
-shell.run("github clone helldragger/CC-Plethora-Scripts")
+shell.run("github clone PapaSmurfDev/Plethora-Ironman-flight")
 shell.setDir(currentDir)
